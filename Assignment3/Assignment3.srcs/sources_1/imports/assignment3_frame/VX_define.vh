@@ -95,6 +95,13 @@
 
   `define from_WB_to_MEM_WIDTH 4 
 
+  // widths for wires from pipeline stages to stall unit
+  // DE stage sends source register numbers, op1, and a signals indicating if the instruction is a branch or a jump
+  `define from_DE_to_stall_WIDTH (`REGNOBITS + `REGNOBITS + `OP1BITS + 1 + 1)
+  // AGEX and MEM stages send destination register number and signal indicating if register is being written
+  `define from_AGEX_to_stall_WIDTH (`REGNOBITS + 1)
+  `define from_MEM_to_stall_WIDTH (`REGNOBITS + 1)
+
   `define BUS_CANARY_WIDTH 4 
   `define BUS_CANARY_VALUE 4'b1111 
 `endif 
