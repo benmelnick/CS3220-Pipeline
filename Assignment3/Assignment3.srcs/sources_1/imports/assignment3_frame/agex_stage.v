@@ -9,7 +9,8 @@ module AGEX_STAGE(
   input [`DE_latch_WIDTH-1:0] from_DE_latch,
   output[`AGEX_latch_WIDTH-1:0] AGEX_latch_out,
   output[`from_AGEX_to_FE_WIDTH-1:0] from_AGEX_to_FE,
-  output[`from_AGEX_to_DE_WIDTH-1:0] from_AGEX_to_DE
+  output[`from_AGEX_to_DE_WIDTH-1:0] from_AGEX_to_DE,
+  output[`from_AGEX_to_stall_WIDTH-1:0] from_AGEX_to_stall
 );
 
   reg [`AGEX_latch_WIDTH-1:0] AGEX_latch; 
@@ -44,8 +45,7 @@ module AGEX_STAGE(
   wire br_taken_AGEX;
   wire[`DBITS-1:0] pctarget_AGEX; 
   
-    wire[`BUS_CANARY_WIDTH-1:0] bus_canary_AGEX; 
- // **TODO: Complete the rest of the pipeline 
+  wire[`BUS_CANARY_WIDTH-1:0] bus_canary_AGEX; 
  
   
   always @ (op1_AGEX or regval1_AGEX or regval2_AGEX) begin
@@ -101,6 +101,8 @@ module AGEX_STAGE(
     br_taken_AGEX,
     pctarget_AGEX
   };
+
+  assign from_AGEX_to_stall = {wregno_AGEX, wr_reg_AGEX};
 
     assign  {
                                   inst_AGEX,

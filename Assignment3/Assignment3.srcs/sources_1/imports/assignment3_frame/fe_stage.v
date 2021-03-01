@@ -10,7 +10,7 @@ module FE_STAGE(
   input [`from_WB_to_FE_WIDTH-1:0] from_WB_to_FE, 
   // inputs from the stall_unit module
   input data_hazard,
-  input branch_hazard,
+  input control_hazard,
   output[`FE_latch_WIDTH-1:0] FE_latch_out
 );
 
@@ -67,13 +67,13 @@ module FE_STAGE(
       FE_latch <= {`FE_latch_WIDTH{1'b0}};  
     end
     else begin
-      if (branch_hazard || data_hazard) begin
+      if (control_hazard || data_hazard) begin
         // don't update the PC if either an unresolved branch or RAW hazard in the pipeline
         PC_FE_latch <= PC_FE_latch; 
-        if (branch_hazard)
+        if (control_hazard)
           FE_latch <= {`FE_latch_WIDTH{1'b0}};  // insert a bubble into next stage
         else
-          FE_latch <= FE_latch; // don't update the output if there is a data hazard
+          FE_latch <= FE_latch; // don't update the output if there is a data hazard - keeps the same instruction in DE
       end
       else if (br_taken_AGEX) begin
         // no hazards and the branch was taken

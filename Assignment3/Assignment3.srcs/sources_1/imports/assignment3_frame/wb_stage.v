@@ -40,8 +40,6 @@ module WB_STAGE(
 
   assign HEX0 = HEX_out[3:0]; // if we are using a board, we should converte hex values with seven segments. 
   assign HEX1 = HEX_out[7:4];
-
- // **TODO: Complete the rest of the pipeline 
  
     
    assign {
@@ -57,8 +55,8 @@ module WB_STAGE(
                                  bus_canary_WB 
                                  } = from_MEM_latch; 
         
-  // TODO: write register by sending data to the DE stage 
-  assign from_WB_to_DE = {wregno_WB, regval2_WB, wr_reg_WB};       
+  // write register by sending data to the DE stage 
+  assign from_WB_to_DE = {wregno_WB, regval_WB, wr_reg_WB};       
         
   // **TODO: Write the code for LEDR here
 

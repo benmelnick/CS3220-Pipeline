@@ -9,7 +9,8 @@ module MEM_STAGE(
   output[`MEM_latch_WIDTH-1:0] MEM_latch_out,
   output[`from_MEM_to_FE_WIDTH-1:0] from_MEM_to_FE,
   output[`from_MEM_to_DE_WIDTH-1:0] from_MEM_to_DE,
-  output[`from_WB_to_AGEX_WIDTH-1:0] from_MEM_to_AGEX
+  output[`from_WB_to_AGEX_WIDTH-1:0] from_MEM_to_AGEX,
+  output[`from_MEM_to_stall_WIDTH-1:0] from_MEM_to_stall
 );
   // D-MEM
   (* ram_init_file = `IDMEMINITFILE *)
@@ -43,7 +44,7 @@ module MEM_STAGE(
 
   wire [`DBITS-1:0 ] regval_MEM; // value actually written back to register in WB stage
 
-   wire [`BUS_CANARY_WIDTH-1:0] bus_canary_MEM;
+  wire [`BUS_CANARY_WIDTH-1:0] bus_canary_MEM;
 
   // Memory address is computed by ALU
   assign memaddr_MEM = aluout_MEM;
@@ -61,42 +62,39 @@ module MEM_STAGE(
       dmem[memaddr_MEM[`DMEMADDRBITS-1:`DMEMWORDBITS]] <= regval2_MEM;
   end
  
-
-   // **TODO: Complete the rest of the pipeline 
-
     
-   assign MEM_latch_out = MEM_latch; 
+  assign MEM_latch_out = MEM_latch; 
 
-   assign {
-                                inst_MEM,
-                                PC_MEM,
-                                aluout_MEM,
-                                regval2_MEM,
-                                rd_mem_MEM,
-                                wr_mem_MEM,
-                                wr_reg_MEM,
-                                wregno_MEM,
-                                    // more signals might need
-                                 bus_canary_MEM
-                                 } = from_AGEX_latch;  
+  assign {
+                              inst_MEM,
+                              PC_MEM,
+                              aluout_MEM,
+                              regval2_MEM,
+                              rd_mem_MEM,
+                              wr_mem_MEM,
+                              wr_reg_MEM,
+                              wregno_MEM,
+                                  // more signals might need
+                                bus_canary_MEM
+                                } = from_AGEX_latch;  
+
+  // send register info to stall unit
+  assign from_MEM_to_stall = {wregno_MEM, wr_reg_MEM};
  
-
-   
-   assign MEM_latch_contents = {
-                                inst_MEM,
-                                PC_MEM,
-                                memaddr_MEM,
-                                regval_MEM,
-                                regval2_MEM, 
-                                wr_mem_MEM,
-                                wr_reg_MEM,
-                                wregno_MEM,    
-                                        // more signals might need    
-                              bus_canary_MEM                   
-   };
+  assign MEM_latch_contents = {
+                              inst_MEM,
+                              PC_MEM,
+                              memaddr_MEM,
+                              regval_MEM,
+                              regval2_MEM, 
+                              wr_mem_MEM,
+                              wr_reg_MEM,
+                              wregno_MEM,    
+                                      // more signals might need    
+                            bus_canary_MEM                   
+  };
  
   always @ (posedge clk or posedge reset) begin
-  // this code need to be completed 
     if(reset) begin
         MEM_latch <={`MEM_latch_WIDTH{1'b0}}; 
     end
@@ -107,8 +105,5 @@ module MEM_STAGE(
     
     
   end
-
-
-
 
 endmodule
