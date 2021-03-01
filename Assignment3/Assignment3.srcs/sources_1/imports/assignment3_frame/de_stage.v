@@ -8,7 +8,9 @@ module DE_STAGE(
   input [`from_AGEX_to_DE_WIDTH-1:0] from_AGEX_to_DE,  
   input [`from_MEM_to_DE_WIDTH-1:0] from_MEM_to_DE,     
   input [`from_WB_to_DE_WIDTH-1:0] from_WB_to_DE,  
+  input data_hazard, // input from stall_unit
   output [`from_DE_to_FE_WIDTH-1:0] from_DE_to_FE,   
+  output [`from_DE_to_stall_WIDTH-1:0] from_DE_to_stall,
   output[`DE_latch_WIDTH-1:0] DE_latch_out
 );
 
@@ -50,8 +52,6 @@ module DE_STAGE(
  wire[`DBITS-1:0] regval_WB;
  wire wr_reg_WB;
 
- // **TODO: Complete the rest of the pipeline 
-
   // instruction decoding - pull signals out of the instruction
   assign op1_DE = inst_DE[31:26]; 
   assign op2_DE = inst_DE[25:18];
@@ -72,21 +72,21 @@ module DE_STAGE(
   // Rd for ALUR ops, Rt otherwise
   assign wregno_DE = (op1_DE == `OP1_ALUR) ? rd_DE : rt_DE;
 
-  // Determine control signs
+  // Determine control signals
   assign is_br_DE = (op1_DE[5:2] == 4'b0010); // top 4 bits of all branch instructions is 0010
   assign is_jmp_DE = (op1_DE == `OP1_JAL); 
   assign rd_mem_DE = (op1_DE == `OP1_LW);
   assign wr_mem_DE = (op1_DE == `OP1_SW);
+
   // Registers are written in: ALUR, ALUI, JAL, LW
-  assign wr_reg_DE = (op1_DE == `OP1_ALUR) || (op1_DE[5:3] == 3'b100) || (op1_DE == `OP1_JAL) || (op1_DE == `OP1_LW);
+  // Use the canary value to indicate that the data is valid
+  // Otherwise this signal could be asserted right when the CPU starts up since the check against ALUR OP1 will be true
+  assign wr_reg_DE = (bus_canary_DE != 0) && (op1_DE == `OP1_ALUR || op1_DE[5:3] == 3'b100 || op1_DE == `OP1_JAL || op1_DE == `OP1_LW);
 
   // assign wire to send the contents of DE latch to other pipeline stages  
   assign DE_latch_out = DE_latch; 
-  
-// TODO: assign from_DE_to_<stage> - should not be clocked since just a group of wires from current input of this stage
-// not creating a latch for the ouput of a stage
 
-// decoding the contents of FE latch out. the order should be matched with the fe_stage.v 
+  // decoding the contents of FE latch out. the order should be matched with the fe_stage.v 
   assign {
             inst_DE,
             PC_DE, 
@@ -94,27 +94,28 @@ module DE_STAGE(
             bus_canary_DE 
             }  = from_FE_latch;  // based on the contents of the latch, you can decode the content 
 
+// assemble signals to send to stall unit
+assign from_DE_to_stall = {rs_DE, rt_DE, op1_DE, is_br_DE, is_jmp_DE};
 
+assign DE_latch_contents = {
+                              inst_DE,
+                              PC_DE,
+                              pcplus_DE,
+                              op1_DE,
+                              op2_DE,
+                              regval1_DE,
+                              regval2_DE,
+                              sxt_imm_DE,
+                              is_br_DE,
+                              is_jmp_DE,
+                              rd_mem_DE,
+                              wr_mem_DE,
+                              wr_reg_DE,
+                              wregno_DE,
 
-    assign DE_latch_contents = {
-                                  inst_DE,
-                                  PC_DE,
-                                  pcplus_DE,
-                                  op1_DE,
-                                  op2_DE,
-                                  regval1_DE,
-                                  regval2_DE,
-                                  sxt_imm_DE,
-                                  is_br_DE,
-                                  is_jmp_DE,
-                                  rd_mem_DE,
-                                  wr_mem_DE,
-                                  wr_reg_DE,
-                                  wregno_DE,
-
-                                  // more signals might need
-                                   bus_canary_DE 
-                                  }; 
+                              // more signals might need
+                                bus_canary_DE 
+                              }; 
 
   // pull out contents of wires from WB to DE stage to get data to be written back in falling edge of clock cycle
   assign {
@@ -142,7 +143,7 @@ module DE_STAGE(
 		  regs[14] <= {`DBITS{1'b0}};
 		  regs[15] <= {`DBITS{1'b0}};
 	  end 
-    // need to complete register write 
+    // register writes happen on falling edge of clock cycle
     else if (wr_reg_WB)
       regs[wrregno_WB] <= regval_WB;
   end
@@ -152,8 +153,9 @@ module DE_STAGE(
       DE_latch <= {`DE_latch_WIDTH{1'b0}};
       // might need more code 
       end
-     else 
-     // need to complete. e.g.) stall? 
+     else if (data_hazard)
+      DE_latch <= {`DE_latch_WIDTH{1'b0}}; // stall - insert bubble to next stage
+     else
       DE_latch <= DE_latch_contents;
   end
 
