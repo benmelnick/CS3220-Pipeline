@@ -60,7 +60,7 @@ module FE_STAGE(
    
   // Logic for updating output latch and computing the next PC to fetch on each clock cycle
   // Includes logic for handling stalls due to branches and data hazards
-  // Branches incur 1 bubble when not taken, 2 bubbles when taken (need an extra cycle to actually update the PC)
+  // Branches incur 1 bubble when not taken, 2 bubbles when taken (need an extra cycle to actually update the PC before we can read from imem)
   always @ (posedge clk or posedge reset) begin
     if(reset) begin
       PC_FE_latch <= `STARTPC;
@@ -78,8 +78,8 @@ module FE_STAGE(
       else if (br_taken_AGEX) begin
         // no hazards and the branch was taken
         PC_FE_latch <= pctarget_AGEX; // update the PC
-        // need to send another bubble to DE since FE_latch_contents had the incorrect PC
-        // after PC gets updated, FE_latch_contents will be correct and will move to DE on next cycle
+        // need to send another bubble to DE since FE_latch_contents is currently using the incorrect PC
+        // after PC gets updated, FE_latch_contents will be correct on next cycle and will move to DE
         FE_latch <= {`FE_latch_WIDTH{1'b0}};
       end
       else begin
