@@ -8,6 +8,9 @@ module FE_STAGE(
   input [`from_AGEX_to_FE_WIDTH-1:0] from_AGEX_to_FE,   
   input [`from_MEM_to_FE_WIDTH-1:0] from_MEM_to_FE,   
   input [`from_WB_to_FE_WIDTH-1:0] from_WB_to_FE, 
+  // inputs from the stall_unit module
+  input data_hazard,
+  input branch_hazard,
   output[`FE_latch_WIDTH-1:0] FE_latch_out
 );
 
@@ -27,17 +30,15 @@ module FE_STAGE(
   
   wire [`INSTBITS-1:0] inst_FE;  // instruction value in the FE stage 
   wire [`DBITS-1:0] pcplus_FE;  // pc plus value in the FE stage 
-  wire stall_pipe; // signal to indicate when a front-end needs to be stall
   
   // branching info passed from AGEX stage
   wire br_taken_AGEX;
   wire[`DBITS-1:0] pctarget_AGEX; 
-
   assign {br_taken_AGEX, pctarget_AGEX} = from_AGEX_to_FE; 
   
   wire [`FE_latch_WIDTH-1:0] FE_latch_contents; 
   
-  // reading instruction from imem 
+  // reading instruction from imem with CURRENT PC
   assign inst_FE = imem[PC_FE_latch[`IMEMADDRBITS-1:`IMEMWORDBITS]]; 
   
   // wire to send the FE latch contents to the DE stage 
@@ -46,7 +47,9 @@ module FE_STAGE(
   // This is the value of "incremented PC", computed in the FE stage
   assign pcplus_FE = PC_FE_latch + `INSTSIZE;
    
-   // the order of latch contents should be matched in the decode stage when we extract the contents. 
+  // local wire for holding output until next clock cycle and output latch is updated
+  // holds instruction information for the CURRENT PC
+  // the order of latch contents should be matched in the decode stage when we extract the contents. 
   assign FE_latch_contents = { 
                                 inst_FE, 
                                 PC_FE_latch, 
@@ -55,33 +58,38 @@ module FE_STAGE(
                                 `BUS_CANARY_VALUE // for an error checking of bus encoding/decoding  
                                 };
    
-  assign stall_pipe = 0; // you need to complete the logic to compute stall FE stage 
-   
-  // Update the PC on each clock cycle 
+  // Logic for updating output latch and computing the next PC to fetch on each clock cycle
+  // Includes logic for handling stalls due to branches and data hazards
+  // Branches incur 1 bubble when not taken, 2 bubbles when taken (need an extra cycle to actually update the PC)
   always @ (posedge clk or posedge reset) begin
-    if(reset)
+    if(reset) begin
       PC_FE_latch <= `STARTPC;
-    else if (br_taken_AGEX)
-      PC_FE_latch <= pctarget_AGEX; // branch
-    else if(!stall_pipe)
-      PC_FE_latch <= pcplus_FE;
-    else
-      PC_FE_latch <= PC_FE_latch; // stall the pipeline
+      FE_latch <= {`FE_latch_WIDTH{1'b0}};  
+    end
+    else begin
+      if (branch_hazard || data_hazard) begin
+        // don't update the PC if either an unresolved branch or RAW hazard in the pipeline
+        PC_FE_latch <= PC_FE_latch; 
+        if (branch_hazard)
+          FE_latch <= {`FE_latch_WIDTH{1'b0}};  // insert a bubble into next stage
+        else
+          FE_latch <= FE_latch; // don't update the output if there is a data hazard
+      end
+      else if (br_taken_AGEX) begin
+        // no hazards and the branch was taken
+        PC_FE_latch <= pctarget_AGEX; // update the PC
+        // need to send another bubble to DE since FE_latch_contents had the incorrect PC
+        // after PC gets updated, FE_latch_contents will be correct and will move to DE on next cycle
+        FE_latch <= {`FE_latch_WIDTH{1'b0}};
+      end
+      else begin
+        // always increment PC to next instruction in sequence unless told otherwise by stall unit
+        // move current instruction to next stage in the pipeline
+        PC_FE_latch <= pcplus_FE;
+        FE_latch <= FE_latch_contents;
+      end
+    end
   end
   
-  // Update FE stage latch on every clock cycle
-  always @ (posedge clk or posedge reset) begin
-    if(reset)  
-      FE_latch <= {`FE_latch_WIDTH{1'b0}};  
-    else   // this is just an example. you need to expand the contents of if/else
-      begin  
-        if (!stall_pipe)
-          FE_latch <= FE_latch_contents; 
-        else
-          FE_latch <= FE_latch; // stall the pipeline
-      end  
-  end
- 
- 
- 
+
 endmodule
