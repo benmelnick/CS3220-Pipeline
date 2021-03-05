@@ -58,7 +58,13 @@ module WB_STAGE(
   // write register by sending data to the DE stage 
   assign from_WB_to_DE = {wregno_WB, regval_WB, wr_reg_WB};       
         
-  // **TODO: Write the code for LEDR here
+  // Writing to LEDR
+  always @ (posedge clk or posedge reset) begin
+    if (reset)
+      LEDR_out <= 10'h000;
+    else if (wr_mem_WB && (memaddr_WB == `ADDRLEDR))
+      LEDR_out <= regval2_WB[`LEDRBITS-1:0];
+  end
 
   assign LEDR = LEDR_out;
   
