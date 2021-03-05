@@ -4,10 +4,10 @@
 module FE_STAGE(
   input clk,
   input reset,
-  input [`from_DE_to_FE_WIDTH-1:0] from_DE_to_FE,
+  //input [`from_DE_to_FE_WIDTH-1:0] from_DE_to_FE,
   input [`from_AGEX_to_FE_WIDTH-1:0] from_AGEX_to_FE,   
-  input [`from_MEM_to_FE_WIDTH-1:0] from_MEM_to_FE,   
-  input [`from_WB_to_FE_WIDTH-1:0] from_WB_to_FE, 
+  //input [`from_MEM_to_FE_WIDTH-1:0] from_MEM_to_FE,   
+  //input [`from_WB_to_FE_WIDTH-1:0] from_WB_to_FE, 
   // inputs from the stall_unit module
   input data_hazard,
   input control_hazard,

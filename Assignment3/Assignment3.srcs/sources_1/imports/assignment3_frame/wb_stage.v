@@ -5,10 +5,10 @@ module WB_STAGE(
   input clk,
   input reset,  
   input [`MEM_latch_WIDTH-1:0] from_MEM_latch,
-  output[`from_WB_to_FE_WIDTH-1:0] from_WB_to_FE,
+  //output[`from_WB_to_FE_WIDTH-1:0] from_WB_to_FE,
   output[`from_WB_to_DE_WIDTH-1:0] from_WB_to_DE,  
-  output[`from_WB_to_AGEX_WIDTH-1:0] from_WB_to_AGEX,
-  output[`from_WB_to_MEM_WIDTH-1:0] from_WB_to_MEM,
+  //output[`from_WB_to_AGEX_WIDTH-1:0] from_WB_to_AGEX,
+  //output[`from_WB_to_MEM_WIDTH-1:0] from_WB_to_MEM,
   output [6:0] HEX0,
   output [6:0] HEX1, 
   output [9:0] LEDR 
