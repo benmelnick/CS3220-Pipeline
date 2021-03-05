@@ -5,7 +5,7 @@ module MEM_STAGE(
   input reset,
   input  [3:0] KEY,
   //input [`from_WB_to_MEM_WIDTH-1:0] from_WB_to_MEM,  
-  //input [`AGEX_latch_WIDTH-1:0] from_AGEX_latch, 
+  input [`AGEX_latch_WIDTH-1:0] from_AGEX_latch, 
   output[`MEM_latch_WIDTH-1:0] MEM_latch_out,
   //output[`from_MEM_to_FE_WIDTH-1:0] from_MEM_to_FE,
   //output[`from_MEM_to_DE_WIDTH-1:0] from_MEM_to_DE,
