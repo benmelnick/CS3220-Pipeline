@@ -70,10 +70,12 @@ module FE_STAGE(
       if (control_hazard || data_hazard) begin
         // don't update the PC if either an unresolved branch or RAW hazard in the pipeline
         PC_FE_latch <= PC_FE_latch; 
-        if (control_hazard)
-          FE_latch <= {`FE_latch_WIDTH{1'b0}};  // insert a bubble into next stage
-        else
+        // check for data hazards first
+        // if there is a data hazard and a control hazard at same time, data hazard needs to be handled first
+        if (data_hazard)
           FE_latch <= FE_latch; // don't update the output if there is a data hazard - keeps the same instruction in DE
+        else
+          FE_latch <= {`FE_latch_WIDTH{1'b0}};  // control hazard - insert a bubble into next stage
       end
       else if (br_taken_AGEX) begin
         // no hazards and the branch was taken

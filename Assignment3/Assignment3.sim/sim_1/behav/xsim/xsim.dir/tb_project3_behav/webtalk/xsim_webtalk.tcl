@@ -1,6 +1,6 @@
 webtalk_init -webtalk_dir Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.sim/sim_1/behav/xsim/xsim.dir/tb_project3_behav/webtalk/
 webtalk_register_client -client project
-webtalk_add_data -client project -key date_generated -value "Thu Mar  4 22:19:50 2021" -context "software_version_and_target_device"
+webtalk_add_data -client project -key date_generated -value "Wed Mar 17 12:13:12 2021" -context "software_version_and_target_device"
 webtalk_add_data -client project -key product_version -value "XSIM v2020.2 (64-bit)" -context "software_version_and_target_device"
 webtalk_add_data -client project -key build_version -value "3064766" -context "software_version_and_target_device"
 webtalk_add_data -client project -key os_platform -value "WIN64" -context "software_version_and_target_device"
@@ -14,7 +14,7 @@ webtalk_add_data -client project -key target_package -value "not_applicable" -co
 webtalk_add_data -client project -key target_speed -value "not_applicable" -context "software_version_and_target_device"
 webtalk_add_data -client project -key random_id -value "1e35512f-bd05-4cad-8a71-c58b7c7e27ca" -context "software_version_and_target_device"
 webtalk_add_data -client project -key project_id -value "884cabc7243d434c84722bef8f0d6409" -context "software_version_and_target_device"
-webtalk_add_data -client project -key project_iteration -value "27" -context "software_version_and_target_device"
+webtalk_add_data -client project -key project_iteration -value "36" -context "software_version_and_target_device"
 webtalk_add_data -client project -key os_name -value "Windows Server 2016 or Windows 10" -context "user_environment"
 webtalk_add_data -client project -key os_release -value "major release  (build 9200)" -context "user_environment"
 webtalk_add_data -client project -key cpu_name -value "Intel(R) Core(TM) i5-7267U CPU @ 3.10GHz" -context "user_environment"
@@ -36,7 +36,7 @@ webtalk_add_data -client xsim -key Total_Nets -value "0" -context "xsim\\usage"
 webtalk_add_data -client xsim -key Total_Processes -value "297" -context "xsim\\usage"
 webtalk_add_data -client xsim -key Total_Instances -value "16" -context "xsim\\usage"
 webtalk_add_data -client xsim -key Xilinx_HDL_Libraries_Used -value "secureip unimacro_ver unisims_ver " -context "xsim\\usage"
-webtalk_add_data -client xsim -key Compiler_Time -value "4.94_sec" -context "xsim\\usage"
-webtalk_add_data -client xsim -key Compiler_Memory -value "154500_KB" -context "xsim\\usage"
-webtalk_transmit -clientid 30244582 -regid "" -xml Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.sim/sim_1/behav/xsim/xsim.dir/tb_project3_behav/webtalk/usage_statistics_ext_xsim.xml -html Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.sim/sim_1/behav/xsim/xsim.dir/tb_project3_behav/webtalk/usage_statistics_ext_xsim.html -wdm Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.sim/sim_1/behav/xsim/xsim.dir/tb_project3_behav/webtalk/usage_statistics_ext_xsim.wdm -intro "<H3>XSIM Usage Report</H3><BR>"
+webtalk_add_data -client xsim -key Compiler_Time -value "5.51_sec" -context "xsim\\usage"
+webtalk_add_data -client xsim -key Compiler_Memory -value "154568_KB" -context "xsim\\usage"
+webtalk_transmit -clientid 1397126287 -regid "" -xml Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.sim/sim_1/behav/xsim/xsim.dir/tb_project3_behav/webtalk/usage_statistics_ext_xsim.xml -html Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.sim/sim_1/behav/xsim/xsim.dir/tb_project3_behav/webtalk/usage_statistics_ext_xsim.html -wdm Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.sim/sim_1/behav/xsim/xsim.dir/tb_project3_behav/webtalk/usage_statistics_ext_xsim.wdm -intro "<H3>XSIM Usage Report</H3><BR>"
 webtalk_terminate
