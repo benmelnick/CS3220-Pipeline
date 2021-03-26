@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Thu Mar  4 22:33:02 2021
+# Process ID: 2924
+# Current directory: Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.runs/synth_1
+# Command line: vivado.exe -log project3_frame.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source project3_frame.tcl
+# Log file: Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.runs/synth_1/project3_frame.vds
+# Journal file: Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source project3_frame.tcl -notrace

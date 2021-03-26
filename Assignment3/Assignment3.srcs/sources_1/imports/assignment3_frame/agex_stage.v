@@ -4,12 +4,12 @@
 module AGEX_STAGE(
   input clk,
   input reset,
-  input [`from_MEM_to_AGEX_WIDTH-1:0] from_MEM_to_AGEX,    
-  input [`from_WB_to_AGEX_WIDTH-1:0] from_WB_to_AGEX,   
+  //input [`from_MEM_to_AGEX_WIDTH-1:0] from_MEM_to_AGEX,    
+  //input [`from_WB_to_AGEX_WIDTH-1:0] from_WB_to_AGEX,   
   input [`DE_latch_WIDTH-1:0] from_DE_latch,
   output[`AGEX_latch_WIDTH-1:0] AGEX_latch_out,
   output[`from_AGEX_to_FE_WIDTH-1:0] from_AGEX_to_FE,
-  output[`from_AGEX_to_DE_WIDTH-1:0] from_AGEX_to_DE,
+  //output[`from_AGEX_to_DE_WIDTH-1:0] from_AGEX_to_DE,
   output[`from_AGEX_to_stall_WIDTH-1:0] from_AGEX_to_stall
 );
 

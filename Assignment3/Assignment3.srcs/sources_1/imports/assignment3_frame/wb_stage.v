@@ -5,10 +5,10 @@ module WB_STAGE(
   input clk,
   input reset,  
   input [`MEM_latch_WIDTH-1:0] from_MEM_latch,
-  output[`from_WB_to_FE_WIDTH-1:0] from_WB_to_FE,
+  //output[`from_WB_to_FE_WIDTH-1:0] from_WB_to_FE,
   output[`from_WB_to_DE_WIDTH-1:0] from_WB_to_DE,  
-  output[`from_WB_to_AGEX_WIDTH-1:0] from_WB_to_AGEX,
-  output[`from_WB_to_MEM_WIDTH-1:0] from_WB_to_MEM,
+  //output[`from_WB_to_AGEX_WIDTH-1:0] from_WB_to_AGEX,
+  //output[`from_WB_to_MEM_WIDTH-1:0] from_WB_to_MEM,
   output [6:0] HEX0,
   output [6:0] HEX1, 
   output [9:0] LEDR 
@@ -58,7 +58,13 @@ module WB_STAGE(
   // write register by sending data to the DE stage 
   assign from_WB_to_DE = {wregno_WB, regval_WB, wr_reg_WB};       
         
-  // **TODO: Write the code for LEDR here
+  // Writing to LEDR
+  always @ (posedge clk or posedge reset) begin
+    if (reset)
+      LEDR_out <= 10'h000;
+    else if (wr_mem_WB && (memaddr_WB == `ADDRLEDR))
+      LEDR_out <= regval2_WB[`LEDRBITS-1:0];
+  end
 
   assign LEDR = LEDR_out;
   

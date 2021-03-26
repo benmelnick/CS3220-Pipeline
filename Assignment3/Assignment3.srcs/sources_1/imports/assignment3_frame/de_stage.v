@@ -5,11 +5,11 @@ module DE_STAGE(
   input clk,
   input reset,
   input [`FE_latch_WIDTH-1:0] from_FE_latch,
-  input [`from_AGEX_to_DE_WIDTH-1:0] from_AGEX_to_DE,  
-  input [`from_MEM_to_DE_WIDTH-1:0] from_MEM_to_DE,     
+  //input [`from_AGEX_to_DE_WIDTH-1:0] from_AGEX_to_DE,  
+  //input [`from_MEM_to_DE_WIDTH-1:0] from_MEM_to_DE,     
   input [`from_WB_to_DE_WIDTH-1:0] from_WB_to_DE,  
   input data_hazard, // input from stall_unit
-  output [`from_DE_to_FE_WIDTH-1:0] from_DE_to_FE,   
+  //output [`from_DE_to_FE_WIDTH-1:0] from_DE_to_FE,   
   output [`from_DE_to_stall_WIDTH-1:0] from_DE_to_stall,
   output[`DE_latch_WIDTH-1:0] DE_latch_out
 );
