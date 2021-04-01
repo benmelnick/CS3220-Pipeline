@@ -34,5 +34,14 @@ BadPC:
 .ORG 0x100  ; code starts executing here - CPU has start PC of 0x100
 
 ; step 1: perform bubblesort algorithm
+; N = number of items in memory to sort
+; for j = 1 to N-1:
+;   for i = 1 to N-j-1:
+;     memA = mem[i]
+;	    memB = mem[i+1]
+;	    if memA > memB:
+;	      // Swap
+;		    mem[i] = memB
+;		    mem[i+1] = memA
 
 ; step 2: iterate through sorted array and print values to HEX
