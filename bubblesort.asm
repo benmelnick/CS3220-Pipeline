@@ -44,6 +44,26 @@ BadPC:
 ;		    mem[i] = memB
 ;		    mem[i+1] = memA
 
+BUBBLESORT:
+	addi zero, t0, SIZE		; t0 = SIZE
+	add  t1, zero, zero 	; t1 = 0, counter for outer loop
+	add  s0, zero, zero 	; s0 = 0, counter for inner loop
+
+INNERLOOP:
+	lw a0, ARRAY(s0)		; a0 = array[s0], first word in array
+	lw a1, ARRAY(s0 + 0x4)	; a1 = array[s0 + 4], next word in array
+	blt a0, a1, INCREMENT   ; check if a1 < a0, if it is then swap, if not break
+	lw a2, ARRAY(s0 + 0x4)	; load a1 into temp
+	sw a0, ARRAY(s0 + 0x4)	; store a0 into a1
+	sw a2, ARRAY(s0)		; store temp into a0
+INCREMENT:
+	add	s0, s0, 0x4			; swap is done so increment inner counter 
+	blt s0, t0, INNERLOOP	; loop is s0 < SIZE
+
+;OUTERLOOP - not really needed as a label
+	add t1, t1, 0x4			; once inner loop counter is done increment outer loop counter
+	blt t1, t0, INNERLOOP	; go on to next iteration of innerloop
+
 ; step 2: iterate through sorted array and print values to HEX
   addi zero, a0, 0x2   ; a0 = 2 - used to calculate word-aligned offset later
   addi zero, t0, SIZE  ; t0 = SIZE
