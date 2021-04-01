@@ -45,3 +45,19 @@ BadPC:
 ;		    mem[i+1] = memA
 
 ; step 2: iterate through sorted array and print values to HEX
+  addi zero, a0, 0x2   ; a0 = 2 - used to calculate word-aligned offset later
+  addi zero, t0, SIZE  ; t0 = SIZE
+  add  t1, zero, zero  ; t1 = 0
+Print:
+  lshf s0, t1, a0      ; s0 = t1 * 4 
+  lw   s1, ARRAY(t1)   ; s1 = array[s0]
+  sw   s1, HEX(zero)   ; print value to HEX
+  sw   t1, LEDR(zero)  ; print the index of the array to LEDR
+  addi t1, t1, 0x1     ; increment index
+  blt  t1, t0, Print   ; if t1 < t0 (index < size) keep going
+  addi zero, t0, 0x1F  
+  sw   t0, LEDR(zero)  ; put 0x1F on LEDR when the code is finished
+  
+; loop forever once the algorithm is complete  
+Done:
+  br   DONE  
