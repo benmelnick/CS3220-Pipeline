@@ -1,0 +1,14 @@
+Vivado Simulator 2020.2
+Time resolution is 1 ps
+Warning: [Unisim MMCME2_ADV-20] Input CLKIN1 period and attribute CLKIN1_PERIOD are not same. Instance tb_project3.myprj.my_clock.inst.mmcm_adv_inst 
+Warning: [Unisim MMCME2_ADV-20] Input CLKIN1 period and attribute CLKIN1_PERIOD are not same. Instance tb_project3.myprj.my_clock.inst.mmcm_adv_inst 
+i:        100 sim_clk=1 KEY=1111 rest:1 hex0:0d hex1:0a ledr:0000000011
+i:        200 sim_clk=1 KEY=1111 rest:1 hex0:0d hex1:0a ledr:0000001010
+i:        300 sim_clk=1 KEY=1111 rest:1 hex0:0d hex1:0a ledr:0000010101
+i:        400 sim_clk=1 KEY=1111 rest:1 hex0:00 hex1:00 ledr:0000011000
+i:        500 sim_clk=1 KEY=1111 rest:1 hex0:00 hex1:00 ledr:0000011000
+i:        600 sim_clk=1 KEY=1111 rest:1 hex0:0f hex1:0f ledr:1111111111
+i:        700 sim_clk=1 KEY=1111 rest:1 hex0:0f hex1:0f ledr:1111111111
+i:        800 sim_clk=1 KEY=1111 rest:1 hex0:0f hex1:0f ledr:1111111111
+i:        900 sim_clk=1 KEY=1111 rest:1 hex0:0f hex1:0f ledr:1111111111
+i:       1000 sim_clk=1 KEY=1111 rest:1 hex0:0f hex1:0f ledr:1111111111
