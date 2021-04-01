@@ -2,7 +2,8 @@
 .NAME	HEX= 0xFFFFF000
 .NAME	LEDR=0xFFFFF020
 
-.NAME DATA=0x1000 ; constant to represent the start of data section in memory
+.NAME ARRAY=0x040 ; constant to represent the start of the array in memory
+.NAME SIZE=0x9    ; size of the array
 
 ; CPU with bad PC starting value would begin executing here
 .ORG 0x0
@@ -16,6 +17,18 @@ BadPC:
 	addi 	zero,t0,0xBAD
 	sw 	t0,HEX(zero)
 	br	BadPC
+
+; section of memory containing the array
+.ORG 0x040  
+.WORD 0x0010 ; initial array contents to sort
+.WORD 0x0050
+.WORD 0x0012
+.WORD 0x0003
+.WORD 0x0002
+.WORD 0x0001
+.WORD 0x0030
+.WORD 0x0050
+.WORD 0x0085
 
 .ORG 0x100  ; code starts executing here - CPU has start PC of 0x100
 
@@ -33,18 +46,3 @@ BadPC:
 ; step 2: perform bubblesort algorithm
 
 ; step 3: iterate through sorted array and print values to HEX
-
-
-; DATA section of memory
-.ORG 0x1000  
-.WORD 0x9    ; size of the array
-.WORD 0x040  ; memory address for start of the array
-.WORD 0x0010 ; initial array contents to sort
-.WORD 0x0050
-.WORD 0x0012
-.WORD 0x0003
-.WORD 0x0002
-.WORD 0x0001
-.WORD 0x0030
-.WORD 0x0050
-.WORD 0x0085
