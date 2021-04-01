@@ -37,7 +37,7 @@ BadPC:
 
 ; DATA section of memory
 .ORG 0x1000  
-.WORD 0xA    ; size of the array
+.WORD 0x9    ; size of the array
 .WORD 0x040  ; memory address for start of the array
 .WORD 0x0010 ; initial array contents to sort
 .WORD 0x0050
