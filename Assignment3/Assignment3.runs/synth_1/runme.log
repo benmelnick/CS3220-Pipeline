@@ -10,6 +10,7 @@
     ** Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 
 source project3_frame.tcl -notrace
+create_project: Time (s): cpu = 00:00:01 ; elapsed = 00:00:08 . Memory (MB): peak = 1014.117 ; gain = 0.000
 Command: synth_design -top project3_frame -part xc7z020clg400-1
 Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
@@ -17,18 +18,18 @@ INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020
 INFO: [Device 21-403] Loading part xc7z020clg400-1
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 5728
+INFO: [Synth 8-7075] Helper process launched with PID 1148
 WARNING: [Synth 8-2611] redeclaration of ansi port from_WB_to_DE is not allowed [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/wb_stage.v:17]
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:14 . Memory (MB): peak = 1014.805 ; gain = 0.000
+Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:12 . Memory (MB): peak = 1014.117 ; gain = 0.000
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-6157] synthesizing module 'project3_frame' [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/project3_frame.v:3]
-INFO: [Synth 8-6157] synthesizing module 'clk_wiz_0' [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.runs/synth_1/.Xil/Vivado-2924-BENMELNICKBB53/realtime/clk_wiz_0_stub.v:5]
-INFO: [Synth 8-6155] done synthesizing module 'clk_wiz_0' (1#1) [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.runs/synth_1/.Xil/Vivado-2924-BENMELNICKBB53/realtime/clk_wiz_0_stub.v:5]
+INFO: [Synth 8-6157] synthesizing module 'clk_wiz_0' [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.runs/synth_1/.Xil/Vivado-4532-BENMELNICKBB53/realtime/clk_wiz_0_stub.v:5]
+INFO: [Synth 8-6155] done synthesizing module 'clk_wiz_0' (1#1) [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.runs/synth_1/.Xil/Vivado-4532-BENMELNICKBB53/realtime/clk_wiz_0_stub.v:5]
 INFO: [Synth 8-6157] synthesizing module 'STALL_UNIT' [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/stall_unit.v:5]
 INFO: [Synth 8-6155] done synthesizing module 'STALL_UNIT' (2#1) [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/stall_unit.v:5]
 INFO: [Synth 8-6157] synthesizing module 'FE_STAGE' [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/fe_stage.v:4]
-INFO: [Synth 8-3876] $readmem data file 'test3.mem' is read successfully [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/fe_stage.v:23]
+INFO: [Synth 8-3876] $readmem data file 'testall.mem' is read successfully [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/fe_stage.v:23]
 INFO: [Synth 8-6155] done synthesizing module 'FE_STAGE' (3#1) [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/fe_stage.v:4]
 INFO: [Synth 8-6157] synthesizing module 'DE_STAGE' [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/de_stage.v:4]
 INFO: [Synth 8-6157] synthesizing module 'SXT' [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/de_stage.v:167]
@@ -40,24 +41,24 @@ INFO: [Synth 8-6157] synthesizing module 'AGEX_STAGE' [Z:/Documents/Spring2021/C
 WARNING: [Synth 8-567] referenced signal 'pcplus_AGEX' should be on the sensitivity list [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/agex_stage.v:61]
 INFO: [Synth 8-6155] done synthesizing module 'AGEX_STAGE' (6#1) [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/agex_stage.v:4]
 INFO: [Synth 8-6157] synthesizing module 'MEM_STAGE' [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/mem_stage.v:3]
-INFO: [Synth 8-3876] $readmem data file 'test3.mem' is read successfully [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/mem_stage.v:21]
+INFO: [Synth 8-3876] $readmem data file 'testall.mem' is read successfully [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/mem_stage.v:21]
 INFO: [Synth 8-6155] done synthesizing module 'MEM_STAGE' (7#1) [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/mem_stage.v:3]
 INFO: [Synth 8-6157] synthesizing module 'WB_STAGE' [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/wb_stage.v:4]
 INFO: [Synth 8-6155] done synthesizing module 'WB_STAGE' (8#1) [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/wb_stage.v:4]
 INFO: [Synth 8-6155] done synthesizing module 'project3_frame' (9#1) [Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.srcs/sources_1/imports/assignment3_frame/project3_frame.v:3]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:10 ; elapsed = 00:00:18 . Memory (MB): peak = 1014.805 ; gain = 0.000
+Finished RTL Elaboration : Time (s): cpu = 00:00:10 ; elapsed = 00:01:19 . Memory (MB): peak = 1014.117 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:11 ; elapsed = 00:00:21 . Memory (MB): peak = 1014.805 ; gain = 0.000
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:11 ; elapsed = 00:01:24 . Memory (MB): peak = 1014.117 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:11 ; elapsed = 00:00:21 . Memory (MB): peak = 1014.805 ; gain = 0.000
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:11 ; elapsed = 00:01:24 . Memory (MB): peak = 1014.117 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.115 . Memory (MB): peak = 1014.805 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.079 . Memory (MB): peak = 1014.117 ; gain = 0.000
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
@@ -70,20 +71,20 @@ INFO: [Project 1-236] Implementation specific constraints were found while readi
 Resolution: To avoid this warning, move constraints listed in [.Xil/project3_frame_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1116.965 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 1121.047 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.056 . Memory (MB): peak = 1116.965 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.092 . Memory (MB): peak = 1121.047 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:24 ; elapsed = 00:01:23 . Memory (MB): peak = 1116.965 ; gain = 102.160
+Finished Constraint Validation : Time (s): cpu = 00:00:22 ; elapsed = 00:01:59 . Memory (MB): peak = 1121.047 ; gain = 106.930
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7z020clg400-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:24 ; elapsed = 00:01:23 . Memory (MB): peak = 1116.965 ; gain = 102.160
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:22 ; elapsed = 00:02:00 . Memory (MB): peak = 1121.047 ; gain = 106.930
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
@@ -92,10 +93,10 @@ Applied set_property IO_BUFFER_TYPE = NONE for CLOCK_50. (constraint file  z:/Do
 Applied set_property CLOCK_BUFFER_TYPE = NONE for CLOCK_50. (constraint file  z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc, line 4).
 Applied set_property KEEP_HIERARCHY = SOFT for my_clock. (constraint file  auto generated constraint).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:24 ; elapsed = 00:01:23 . Memory (MB): peak = 1116.965 ; gain = 102.160
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:22 ; elapsed = 00:02:00 . Memory (MB): peak = 1121.047 ; gain = 106.930
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:25 ; elapsed = 00:01:26 . Memory (MB): peak = 1116.965 ; gain = 102.160
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:23 ; elapsed = 00:02:02 . Memory (MB): peak = 1121.047 ; gain = 106.930
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
@@ -117,6 +118,7 @@ Detailed RTL Component Info :
 +---Muxes : 
 	   2 Input  219 Bit        Muxes := 1     
 	   2 Input  100 Bit        Muxes := 2     
+	 232 Input   32 Bit        Muxes := 1     
 	  14 Input   32 Bit        Muxes := 1     
 	   2 Input   32 Bit        Muxes := 6     
 	   5 Input   32 Bit        Muxes := 1     
@@ -141,27 +143,18 @@ Finished Part Resource Summary
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:45 ; elapsed = 00:01:51 . Memory (MB): peak = 1116.965 ; gain = 102.160
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:44 ; elapsed = 00:02:27 . Memory (MB): peak = 1121.047 ; gain = 106.930
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
 
-ROM: Preliminary Mapping	Report
-+------------+------------+---------------+----------------+
-|Module Name | RTL Object | Depth x Width | Implemented As | 
-+------------+------------+---------------+----------------+
-|FE_STAGE    | p_0_out    | 4096x21       | LUT            | 
-|FE_STAGE    | p_0_out    | 4096x21       | LUT            | 
-+------------+------------+---------------+----------------+
-
-
 Distributed RAM: Preliminary Mapping	Report (see note below)
-+---------------+-----------------------+-----------+----------------------+-------------------+
-|Module Name    | RTL Object            | Inference | Size (Depth x Width) | Primitives        | 
-+---------------+-----------------------+-----------+----------------------+-------------------+
-|project3_frame | my_MEM_stage/dmem_reg | Implied   | 16 K x 32            | RAM256X1S x 2048	 | 
-+---------------+-----------------------+-----------+----------------------+-------------------+
++-------------+------------+-----------+----------------------+-------------------+
+|Module Name  | RTL Object | Inference | Size (Depth x Width) | Primitives        | 
++-------------+------------+-----------+----------------------+-------------------+
+|my_MEM_stage | dmem_reg   | Implied   | 16 K x 32            | RAM256X1S x 2048	 | 
++-------------+------------+-----------+----------------------+-------------------+
 
 Note: The table above is a preliminary report that shows the Distributed RAMs at the current stage of the synthesis flow. Some Distributed RAMs may be reimplemented as non Distributed RAM primitives later in the synthesis flow. Multiple instantiated RAMs are reported only once.
 ---------------------------------------------------------------------------------
@@ -171,24 +164,24 @@ Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:55 ; elapsed = 00:02:03 . Memory (MB): peak = 1116.965 ; gain = 102.160
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:53 ; elapsed = 00:02:38 . Memory (MB): peak = 1121.047 ; gain = 106.930
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:57 ; elapsed = 00:02:05 . Memory (MB): peak = 1119.031 ; gain = 104.227
+Finished Timing Optimization : Time (s): cpu = 00:00:59 ; elapsed = 00:02:44 . Memory (MB): peak = 1162.801 ; gain = 148.684
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
 
 Distributed RAM: Final Mapping	Report
-+---------------+-----------------------+-----------+----------------------+-------------------+
-|Module Name    | RTL Object            | Inference | Size (Depth x Width) | Primitives        | 
-+---------------+-----------------------+-----------+----------------------+-------------------+
-|project3_frame | my_MEM_stage/dmem_reg | Implied   | 16 K x 32            | RAM256X1S x 2048	 | 
-+---------------+-----------------------+-----------+----------------------+-------------------+
++-------------+------------+-----------+----------------------+-------------------+
+|Module Name  | RTL Object | Inference | Size (Depth x Width) | Primitives        | 
++-------------+------------+-----------+----------------------+-------------------+
+|my_MEM_stage | dmem_reg   | Implied   | 16 K x 32            | RAM256X1S x 2048	 | 
++-------------+------------+-----------+----------------------+-------------------+
 
 ---------------------------------------------------------------------------------
 Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
@@ -197,7 +190,7 @@ Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:01:00 ; elapsed = 00:02:10 . Memory (MB): peak = 1158.277 ; gain = 143.473
+Finished Technology Mapping : Time (s): cpu = 00:01:03 ; elapsed = 00:02:49 . Memory (MB): peak = 1188.164 ; gain = 174.047
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -215,37 +208,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:01:07 ; elapsed = 00:02:20 . Memory (MB): peak = 1171.016 ; gain = 156.211
+Finished IO Insertion : Time (s): cpu = 00:01:10 ; elapsed = 00:02:56 . Memory (MB): peak = 1201.000 ; gain = 186.883
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:01:07 ; elapsed = 00:02:20 . Memory (MB): peak = 1171.016 ; gain = 156.211
+Finished Renaming Generated Instances : Time (s): cpu = 00:01:10 ; elapsed = 00:02:56 . Memory (MB): peak = 1201.000 ; gain = 186.883
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:08 ; elapsed = 00:02:21 . Memory (MB): peak = 1171.016 ; gain = 156.211
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:11 ; elapsed = 00:02:57 . Memory (MB): peak = 1201.000 ; gain = 186.883
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:01:08 ; elapsed = 00:02:21 . Memory (MB): peak = 1171.016 ; gain = 156.211
+Finished Renaming Generated Ports : Time (s): cpu = 00:01:11 ; elapsed = 00:02:57 . Memory (MB): peak = 1201.000 ; gain = 186.883
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:01:08 ; elapsed = 00:02:22 . Memory (MB): peak = 1171.016 ; gain = 156.211
+Finished Handling Custom Attributes : Time (s): cpu = 00:01:11 ; elapsed = 00:02:58 . Memory (MB): peak = 1201.000 ; gain = 186.883
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:01:08 ; elapsed = 00:02:22 . Memory (MB): peak = 1171.016 ; gain = 156.211
+Finished Renaming Generated Nets : Time (s): cpu = 00:01:11 ; elapsed = 00:02:58 . Memory (MB): peak = 1201.000 ; gain = 186.883
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -264,33 +257,33 @@ Report Cell Usage:
 +------+----------+------+
 |1     |clk_wiz   |     1|
 |2     |CARRY4    |    54|
-|3     |LUT1      |     4|
-|4     |LUT2      |    93|
-|5     |LUT3      |    87|
-|6     |LUT4      |   268|
-|7     |LUT5      |   129|
-|8     |LUT6      |  1065|
-|9     |MUXF7     |   256|
+|3     |LUT1      |     5|
+|4     |LUT2      |   134|
+|5     |LUT3      |   111|
+|6     |LUT4      |   168|
+|7     |LUT5      |   119|
+|8     |LUT6      |  1347|
+|9     |MUXF7     |   368|
 |10    |MUXF8     |   128|
 |11    |RAM256X1S |  2048|
-|12    |FDCE      |   773|
+|12    |FDCE      |   919|
 |13    |FDPE      |     6|
 |14    |IBUF      |     5|
 |15    |OBUF      |    24|
 +------+----------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:01:08 ; elapsed = 00:02:22 . Memory (MB): peak = 1171.016 ; gain = 156.211
+Finished Writing Synthesis Report : Time (s): cpu = 00:01:11 ; elapsed = 00:02:58 . Memory (MB): peak = 1201.000 ; gain = 186.883
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 0 critical warnings and 0 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:51 ; elapsed = 00:01:40 . Memory (MB): peak = 1171.016 ; gain = 54.051
-Synthesis Optimization Complete : Time (s): cpu = 00:01:08 ; elapsed = 00:02:24 . Memory (MB): peak = 1171.016 ; gain = 156.211
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:55 ; elapsed = 00:02:38 . Memory (MB): peak = 1201.000 ; gain = 79.953
+Synthesis Optimization Complete : Time (s): cpu = 00:01:11 ; elapsed = 00:02:58 . Memory (MB): peak = 1201.000 ; gain = 186.883
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.160 . Memory (MB): peak = 1183.070 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 2486 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.135 . Memory (MB): peak = 1213.059 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 2598 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 2 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.022 . Memory (MB): peak = 1183.070 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.019 . Memory (MB): peak = 1213.059 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 2048 instances were transformed.
   RAM256X1S => RAM256X1S (MUXF7(x2), MUXF8, RAMS64E(x4)): 2048 instances
@@ -298,8 +291,7 @@ INFO: [Project 1-111] Unisim Transformation Summary:
 INFO: [Common 17-83] Releasing license: Synthesis
 35 Infos, 2 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:01:28 ; elapsed = 00:03:47 . Memory (MB): peak = 1183.070 ; gain = 168.266
+synth_design: Time (s): cpu = 00:01:28 ; elapsed = 00:03:38 . Memory (MB): peak = 1213.059 ; gain = 198.941
 INFO: [Common 17-1381] The checkpoint 'Z:/Documents/Spring2021/CS3220/CS3220-Pipeline/Assignment3/Assignment3.runs/synth_1/project3_frame.dcp' has been generated.
-write_checkpoint: Time (s): cpu = 00:00:03 ; elapsed = 00:00:05 . Memory (MB): peak = 1183.070 ; gain = 0.000
 INFO: [runtcl-4] Executing : report_utilization -file project3_frame_utilization_synth.rpt -pb project3_frame_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Thu Mar  4 22:37:21 2021...
+INFO: [Common 17-206] Exiting Vivado at Sun Mar 21 15:22:01 2021...
