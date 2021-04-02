@@ -67,8 +67,8 @@ INCREMENT:
   blt  t1, s1, COMPARE   ; if i < SIZE - j - 1, move onto next iteration of the loop if not done
 
 ;OUTERLOOP - not really needed as a label
-	addi t0, t0, 0x1			  ; once inner loop counter is done increment outer loop counter
-	blt  t0, s0, INNERLOOP	; if j < SIZE - 1, go on to next iteration of innerloop
+  addi t0, t0, 0x1			  ; once inner loop counter is done increment outer loop counter
+  blt  t0, s0, INNERLOOP	; if j < SIZE - 1, go on to next iteration of innerloop
 
 ; step 2: iterate through sorted array and print values to HEX
   addi zero, a0, 0x2   ; a0 = 2 - used to calculate word-aligned offset later
