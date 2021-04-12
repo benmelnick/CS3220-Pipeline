@@ -70,6 +70,7 @@ STALL_UNIT my_stall_unit(
   .control_hazard(control_hazard));
 
 BTB my_btb(
+  .clk(clk),
   .reset(reset),
   .from_FE_to_BTB(from_FE_to_BTB),
   .from_WB_to_BTB(from_WB_to_BTB),
