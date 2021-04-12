@@ -134,7 +134,9 @@ module AGEX_STAGE(
                                 wr_mem_AGEX,
                                 wr_reg_AGEX,
                                 wregno_AGEX,
-                                       // more signals might need
+                                is_br_AGEX,
+                                br_taken_AGEX,
+                                pctarget_AGEX,
                                 bus_canary_AGEX     
                                  }; 
  

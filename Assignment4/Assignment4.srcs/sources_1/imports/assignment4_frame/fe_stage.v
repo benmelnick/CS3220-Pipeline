@@ -11,7 +11,8 @@ module FE_STAGE(
   // inputs from the stall_unit module
   input data_hazard,
   input control_hazard,
-  output[`FE_latch_WIDTH-1:0] FE_latch_out
+  output[`FE_latch_WIDTH-1:0] FE_latch_out,
+  output[`from_FE_to_BTB_WIDTH-1:0] from_FE_to_BTB
 );
 
 
@@ -37,6 +38,9 @@ module FE_STAGE(
   assign {br_taken_AGEX, pctarget_AGEX} = from_AGEX_to_FE; 
   
   wire [`FE_latch_WIDTH-1:0] FE_latch_contents; 
+
+  // Send PC to BTB to get branch prediction
+  assign from_FE_to_BTB = {PC_FE_latch};
   
   // reading instruction from imem with CURRENT PC
   assign inst_FE = imem[PC_FE_latch[`IMEMADDRBITS-1:`IMEMWORDBITS]]; 

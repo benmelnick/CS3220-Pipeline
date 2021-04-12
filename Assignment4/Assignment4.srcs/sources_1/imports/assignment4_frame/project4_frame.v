@@ -56,6 +56,11 @@ clk_wiz_0 my_clock
   wire data_hazard;
   wire control_hazard;
 
+  /* Wires for BTB */
+  wire [`from_FE_to_BTB_WIDTH-1:0] from_FE_to_BTB;
+  wire [`from_WB_to_BTB_WIDTH-1:0] from_WB_to_BTB;
+  wire br_taken_BTB;
+  wire [`INSTBITS-1:0] pctarget_BTB; 
 
 STALL_UNIT my_stall_unit(
   .from_DE_to_stall(from_DE_to_stall),
@@ -64,6 +69,13 @@ STALL_UNIT my_stall_unit(
   .data_hazard(data_hazard),
   .control_hazard(control_hazard));
 
+BTB my_btb(
+  .reset(reset),
+  .from_FE_to_BTB(from_FE_to_BTB),
+  .from_WB_to_BTB(from_WB_to_BTB),
+  .br_taken_BTB(br_taken_BTB),
+  .pctarget_BTB(pctarget_BTB)
+);
 
 FE_STAGE my_FE_stage(
     .clk(clk), 
@@ -71,7 +83,8 @@ FE_STAGE my_FE_stage(
     .from_AGEX_to_FE(from_AGEX_to_FE),
     .data_hazard(data_hazard),
     .control_hazard(control_hazard),
-    .FE_latch_out(FE_latch_out)); 
+    .FE_latch_out(FE_latch_out),
+    .from_FE_to_BTB(from_FE_to_BTB)); 
                      
 DE_STAGE my_DE_stage(
   .clk(clk),
@@ -108,6 +121,7 @@ WB_STAGE my_WB_stage(
   .reset(reset),  
   .from_MEM_latch(MEM_latch_out),
   .from_WB_to_DE(from_WB_to_DE),  
+  .from_WB_to_BTB(from_WB_to_BTB),
   .HEX0(HEX0),
   .HEX1(HEX1), 
   .LEDR(LEDR) 
