@@ -82,7 +82,7 @@
   `define MEM_latch_WIDTH   (`INSTBITS+`DBITS+`DBITS +`DBITS + `DBITS + 1 + 1 + `REGNOBITS + 1 + 1 + `DBITS + `BUS_CANARY_WIDTH)
 
   `define from_DE_to_FE_WIDTH  1 
-  `define from_AGEX_to_FE_WIDTH (1 + `DBITS) // send a "branch taken" signal and the target PC 
+  `define from_AGEX_to_FE_WIDTH (1 + `DBITS) // send a "branch mispredicted" signal and the target PC 
   `define from_MEM_to_FE_WIDTH 4
   `define from_WB_to_FE_WIDTH 4
 

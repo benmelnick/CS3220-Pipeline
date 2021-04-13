@@ -10,7 +10,8 @@ module AGEX_STAGE(
   output[`AGEX_latch_WIDTH-1:0] AGEX_latch_out,
   output[`from_AGEX_to_FE_WIDTH-1:0] from_AGEX_to_FE,
   //output[`from_AGEX_to_DE_WIDTH-1:0] from_AGEX_to_DE,
-  output[`from_AGEX_to_stall_WIDTH-1:0] from_AGEX_to_stall
+  output[`from_AGEX_to_stall_WIDTH-1:0] from_AGEX_to_stall,
+  output flush // tells other pipeline stages to flush their instructions in the event of a branch misprediction
 );
 
   reg [`AGEX_latch_WIDTH-1:0] AGEX_latch; 
@@ -107,6 +108,8 @@ module AGEX_STAGE(
     mispredict_AGEX,
     pctarget_AGEX
   };
+
+  assign flush = mispredict_AGEX;
 
   assign from_AGEX_to_stall = {wregno_AGEX, wr_reg_AGEX};
 

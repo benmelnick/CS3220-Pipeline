@@ -9,6 +9,7 @@ module DE_STAGE(
   //input [`from_MEM_to_DE_WIDTH-1:0] from_MEM_to_DE,     
   input [`from_WB_to_DE_WIDTH-1:0] from_WB_to_DE,  
   input data_hazard, // input from stall_unit
+  input flush,
   //output [`from_DE_to_FE_WIDTH-1:0] from_DE_to_FE,   
   output [`from_DE_to_stall_WIDTH-1:0] from_DE_to_stall,
   output[`DE_latch_WIDTH-1:0] DE_latch_out
@@ -156,8 +157,11 @@ assign DE_latch_contents = {
       DE_latch <= {`DE_latch_WIDTH{1'b0}};
       // might need more code 
       end
-     else if (data_hazard)
-      DE_latch <= {`DE_latch_WIDTH{1'b0}}; // stall - insert bubble to next stage
+     else if (data_hazard || flush) begin
+       // if a data hazard, stall the pipeline by inserting a bubble into output latch to send to the next stage
+       // if a flush (from misprediction), flush the DE stage by inserting a bubble into output latch
+      DE_latch <= {`DE_latch_WIDTH{1'b0}};
+     end
      else
       DE_latch <= DE_latch_contents;
   end

@@ -40,6 +40,8 @@ clk_wiz_0 my_clock
   //wire [`from_MEM_to_FE_WIDTH-1:0] from_MEM_to_FE;
   //wire [`from_WB_to_FE_WIDTH-1:0] from_WB_to_FE;
 
+  wire flush;
+
   //wire [`from_AGEX_to_DE_WIDTH-1:0] from_AGEX_to_DE;
   //wire [`from_MEM_to_DE_WIDTH-1:0] from_MEM_to_DE;
   wire [`from_WB_to_DE_WIDTH-1:0] from_WB_to_DE;
@@ -94,6 +96,7 @@ DE_STAGE my_DE_stage(
   .from_FE_latch(FE_latch_out),
   .from_WB_to_DE(from_WB_to_DE), 
   .data_hazard(data_hazard),
+  .flush(flush),
   .from_DE_to_stall(from_DE_to_stall),
   .DE_latch_out(DE_latch_out)
 );
@@ -104,7 +107,8 @@ AGEX_STAGE my_AGEX_stage(
   .from_DE_latch(DE_latch_out),
   .AGEX_latch_out(AGEX_latch_out),
   .from_AGEX_to_FE(from_AGEX_to_FE),
-  .from_AGEX_to_stall(from_AGEX_to_stall)
+  .from_AGEX_to_stall(from_AGEX_to_stall),
+  .flush(flush)
 );
 
 MEM_STAGE my_MEM_stage(
