@@ -59,27 +59,49 @@ module STALL_UNIT(
   assign control_hazard = is_br_DE || is_jmp_DE; // branches/jumps aren't resolved until AGEX stage 
 
   always @ (RAW_from_AGEX or RAW_from_MEM) begin
-    if(RAW_from_AGEX)
-      if(rs_DE == wregno_AGEX)
-        regval1_DE = regval_AGEX;
-      else
-        regval1_DE = regfile1_DE;
-      if(rt_read_DE && rt_DE == wregno_AGEX)
-        regval2_DE = regval_AGEX;
-      else
-        regval2_DE = regfile2_DE;
-    else if(RAW_from_MEM)
-      if(rs_DE == wregno_MEM)
-        regval1_DE = regval_MEM;
-      else
-        regval1_DE = regfile1_DE;
-      if(rt_read_DE && rt_DE == wregno_MEM)
-        regval2_DE = regval_MEM;
-      else
-        regval2_DE = regfile2_DE;
+    if (RAW_from_AGEX && RAW_from_MEM) begin
+      // hazards from both stages
+      if (wregno_AGEX == wregno_MEM) begin
+        // instructions are writing to the same register - use AGEX value since it is a newer instruction
+        regval1_DE = (rs_DE == wregno_AGEX) ? regval_AGEX : regfile1_DE;
+        regval2_DE = (rt_read_DE && rt_DE == wregno_AGEX) ? regval_AGEX : regfile2_DE;
+      end
+      else begin
+        // instructions in AGEX and MEM are writing to two different registers
+        // check each source register to see which stage it depends on
+
+        // check which stage should forward the value for rs (if necessary)
+        if (rs_DE == wregno_AGEX) 
+          regval1_DE = regval_AGEX;
+        else if (rs_DE == wregno_MEM)
+          regval1_DE = regval_MEM;
+        else
+          regval1_DE = regfile1_DE;
+
+        // check which stage should forward the value for rt (if necessary)
+        if (rt_read_DE && rt_DE == wregno_AGEX) 
+          regval2_DE = regval_AGEX;
+        else if (rt_read_DE && rt_DE == wregno_MEM)
+          regval2_DE = regval_MEM;
+        else
+          regval2_DE = regfile1_DE;
+      end
+    end
+    else if(RAW_from_AGEX) begin
+      // only a hazard with the AGEX stage - check which register(s) can receive the forwarded value
+      // only need to compare source registers to destination register of AGEX
+      regval1_DE = (rs_DE == wregno_AGEX) ? regval_AGEX : regfile1_DE;
+      regval2_DE = (rt_read_DE && rt_DE == wregno_AGEX) ? regval_AGEX : regfile2_DE;
+    end
+    else if(RAW_from_MEM) begin
+      // only a hazard with the AGEX stage - check which register(s) can receive the forwarded value
+      regval1_DE = (rs_DE == wregno_MEM) ? regval_MEM : regfile1_DE;
+      regval2_DE = (rt_read_DE && rt_DE == wregno_MEM) ? regval_MEM : regfile2_DE;
     else
+      // no hazards, so forwarding not needed, can just use the value taken from the register file 
       regval1_DE = regfile1_DE;
       regval2_DE = regfile2_DE;
+    end
   end
 
 endmodule
