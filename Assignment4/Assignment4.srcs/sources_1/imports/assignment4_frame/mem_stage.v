@@ -8,7 +8,7 @@ module MEM_STAGE(
   input [`AGEX_latch_WIDTH-1:0] from_AGEX_latch, 
   output[`MEM_latch_WIDTH-1:0] MEM_latch_out,
   //output[`from_MEM_to_FE_WIDTH-1:0] from_MEM_to_FE,
-  //output[`from_MEM_to_DE_WIDTH-1:0] from_MEM_to_DE,
+  output[`from_MEM_to_DE_WIDTH-1:0] from_MEM_to_DE,
   //output[`from_WB_to_AGEX_WIDTH-1:0] from_MEM_to_AGEX,
   output[`from_MEM_to_stall_WIDTH-1:0] from_MEM_to_stall
 );
@@ -65,6 +65,12 @@ module MEM_STAGE(
     
   assign MEM_latch_out = MEM_latch; 
 
+  assign from_MEM_to_DE = {
+    regval_MEM,
+    wr_reg_MEM,
+    wregno_MEM
+  };
+
   assign {
                               inst_MEM,
                               PC_MEM,
@@ -79,7 +85,7 @@ module MEM_STAGE(
                                 } = from_AGEX_latch;  
 
   // send register info to stall unit
-  assign from_MEM_to_stall = {wregno_MEM, wr_reg_MEM};
+  assign from_MEM_to_stall = {wregno_MEM, wr_reg_MEM, regval_MEM};
  
   assign MEM_latch_contents = {
                               inst_MEM,
