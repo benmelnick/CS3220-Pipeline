@@ -83,7 +83,8 @@ FE_STAGE my_FE_stage(
     .reset(reset), 
     .from_AGEX_to_FE(from_AGEX_to_FE),
     .data_hazard(data_hazard),
-    .control_hazard(control_hazard),
+    .br_taken_BTB(br_taken_BTB),
+    .pctarget_BTB(pctarget_BTB),
     .FE_latch_out(FE_latch_out),
     .from_FE_to_BTB(from_FE_to_BTB)); 
                      

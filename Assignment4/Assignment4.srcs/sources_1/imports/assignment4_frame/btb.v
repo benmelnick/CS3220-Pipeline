@@ -38,7 +38,7 @@ module BTB(
   // set up the BTB as an array of registers 
   // array with BTB_SIZE elements, where each element corresponds to a line in the BTB
   // each line in the BTB has BTB_LINE_BITS
-  reg[`BTB_LINE_BITS-1:0] btb[`BTB_SIZE-1:0];
+  reg[`BTB_LINE_BITS-1:0] btb[`BTB_SIZE-1:0]; // todo: choose a better subset of bits?
 
   // pull out singals from inputs to module
   assign PC_FE = from_FE_to_BTB;
@@ -55,7 +55,8 @@ module BTB(
   // Determine HIT or MISS in btb
   // Since the BTB only stores taken branches/jumps, we can determine HIT/MISS by comparing the PC of the
   //   current instruction in the FE stage and the PC of indexed entry in the BTB
-  // If they match, it is a hit
+  // If they match, it is a hit, and the stored target will be used
+  // If they do not match, the current PC is not in the table, so it is a MISS and we predict "not taken"
   assign br_taken_BTB = (btb_rd_entry_pc == PC_FE) ? 1 : 0;
   assign pctarget_BTB = btb_rd_target_pc;
 
@@ -90,6 +91,7 @@ module BTB(
         // clear the entry if the branch was not taken
         if (!br_taken_WB)
           btb[btb_wr_index] <= {`BTB_LINE_BITS{1'b0}};
+        // else: the branch was taken, so the entry can remain in the BTB for future lookups
       end
     end
 
