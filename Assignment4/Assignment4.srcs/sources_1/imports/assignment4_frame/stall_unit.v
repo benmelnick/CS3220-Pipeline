@@ -8,8 +8,6 @@ module STALL_UNIT(
   input[`from_MEM_to_stall_WIDTH-1:0] from_MEM_to_stall,
   output data_hazard,
   output control_hazard,
-  // output RAW_from_AGEX,
-  // output RAW_from_MEM
   output[`DBITS-1:0] regval1_DE,
   output[`DBITS-1:0] regval2_DE,
 );

@@ -5,15 +5,13 @@ module DE_STAGE(
   input clk,
   input reset,
   input [`FE_latch_WIDTH-1:0] from_FE_latch,
-  input [`from_AGEX_to_DE_WIDTH-1:0] from_AGEX_to_DE,  
-  input [`from_MEM_to_DE_WIDTH-1:0] from_MEM_to_DE,     
+  //input [`from_AGEX_to_DE_WIDTH-1:0] from_AGEX_to_DE,  
+  //input [`from_MEM_to_DE_WIDTH-1:0] from_MEM_to_DE,     
   input [`from_WB_to_DE_WIDTH-1:0] from_WB_to_DE,  
    // input from stall_unit
   input data_hazard,
   input regval1_from_stall,
   input regval2_from_stall,
-  // input RAW_from_AGEX,
-  // input RAW_from_MEM,
   //output [`from_DE_to_FE_WIDTH-1:0] from_DE_to_FE,   
   output [`from_DE_to_stall_WIDTH-1:0] from_DE_to_stall,
   output[`DE_latch_WIDTH-1:0] DE_latch_out
@@ -56,16 +54,6 @@ module DE_STAGE(
  wire[`REGNOBITS-1:0] wrregno_WB;
  wire[`DBITS-1:0] regval_WB;
  wire wr_reg_WB;
-
- //signals sent from the AGEX stage
- wire[`REGNOBITS-1:0] wrregno_AGEX;
- wire[`DBITS-1:0] regval_AGEX;
- wire wr_reg_AGEX;
-
-//signals sent from the MEM stage
-wire[`REGNOBITS-1:0] wrregno_MEM;
- wire[`DBITS-1:0] regval_MEM;
- wire wr_reg_MEM;
 
   // instruction decoding - pull signals out of the instruction
   assign op1_DE = inst_DE[31:26]; 
@@ -138,22 +126,6 @@ assign DE_latch_contents = {
     regval_WB,
     wr_reg_WB
   } = from_WB_to_DE;
-
-  //pull out contents of wires from AGEX to DE stage for data forwarding
-  assign {
-    regval_AGEX,
-    wr_reg_AGEX,
-    wrregno_AGEX
-  } = from_AGEX_to_DE;
-
-  //pull out contents of wires from MEM to DE stage for data forwarding
-  assign {
-    regval_MEM,
-    wr_reg_MEM,
-    wrregno_MEM
-  } = from_MEM_to_DE;
-
-
     
   always @ (negedge clk or posedge reset) begin
     if(reset) begin

@@ -55,6 +55,8 @@ clk_wiz_0 my_clock
   wire [`from_MEM_to_stall_WIDTH-1:0] from_MEM_to_stall;
   wire data_hazard;
   wire control_hazard;
+  wire [`DBITS-1:0] forwarded_regval1;
+  wire [`DBITS-1:0] forwarded_regval2;
 
 
 STALL_UNIT my_stall_unit(
@@ -62,7 +64,9 @@ STALL_UNIT my_stall_unit(
   .from_AGEX_to_stall(from_AGEX_to_stall),
   .from_MEM_to_stall(from_MEM_to_stall),
   .data_hazard(data_hazard),
-  .control_hazard(control_hazard));
+  .control_hazard(control_hazard),
+  .regval1_DE(forwarded_regval1),
+  .regval2_DE(forwarded_regval2));
 
 
 FE_STAGE my_FE_stage(
@@ -79,6 +83,8 @@ DE_STAGE my_DE_stage(
   .from_FE_latch(FE_latch_out),
   .from_WB_to_DE(from_WB_to_DE), 
   .data_hazard(data_hazard),
+  .regval1_from_stall(forwarded_regval1),
+  .regval2_from_stall(forwarded_regval2),
   .from_DE_to_stall(from_DE_to_stall),
   .DE_latch_out(DE_latch_out)
 );

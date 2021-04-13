@@ -9,7 +9,7 @@ module AGEX_STAGE(
   input [`DE_latch_WIDTH-1:0] from_DE_latch,
   output[`AGEX_latch_WIDTH-1:0] AGEX_latch_out,
   output[`from_AGEX_to_FE_WIDTH-1:0] from_AGEX_to_FE,
-  output[`from_AGEX_to_DE_WIDTH-1:0] from_AGEX_to_DE,
+  //output[`from_AGEX_to_DE_WIDTH-1:0] from_AGEX_to_DE,
   output[`from_AGEX_to_stall_WIDTH-1:0] from_AGEX_to_stall
 );
 
@@ -103,12 +103,6 @@ module AGEX_STAGE(
   };
 
   assign from_AGEX_to_stall = {op1_AGEX, wregno_AGEX, wr_reg_AGEX, aluout_AGEX};
-
-  assign from_AGEX_to_DE = {
-    aluout_AGEX,
-    wr_reg_AGEX,
-    wregno_AGEX
-  };
 
     assign  {
                                   inst_AGEX,
