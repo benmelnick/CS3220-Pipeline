@@ -47,6 +47,9 @@ module DE_STAGE(
   wire[`DE_latch_WIDTH-1:0] DE_latch_contents; 
   wire[`BUS_CANARY_WIDTH-1:0] bus_canary_DE; 
 
+  // if this instruction is a branch, this bit indicates the direction of the branch predicted using BTB in FE stage
+  wire predicted_dir_DE;
+
  // signals sent from the WB stage
  wire[`REGNOBITS-1:0] wrregno_WB;
  wire[`DBITS-1:0] regval_WB;
@@ -91,6 +94,7 @@ module DE_STAGE(
             inst_DE,
             PC_DE, 
             pcplus_DE,
+            predicted_dir_DE,
             bus_canary_DE 
             }  = from_FE_latch;  // based on the contents of the latch, you can decode the content 
 
@@ -112,8 +116,7 @@ assign DE_latch_contents = {
                               wr_mem_DE,
                               wr_reg_DE,
                               wregno_DE,
-
-                              // more signals might need
+                              predicted_dir_DE,
                                 bus_canary_DE 
                               }; 
 

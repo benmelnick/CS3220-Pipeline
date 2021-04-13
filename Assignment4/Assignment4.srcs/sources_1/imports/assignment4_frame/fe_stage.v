@@ -36,9 +36,9 @@ module FE_STAGE(
   wire [`DBITS-1:0] nextpc_FE;  // next memory address to load into the PC on next rising clock edge (either PC+4 or BTB target)
   
   // branching info passed from AGEX stage
-  wire br_taken_AGEX;
+  wire mispredict_AGEX;
   wire[`DBITS-1:0] pctarget_AGEX; 
-  assign {br_taken_AGEX, pctarget_AGEX} = from_AGEX_to_FE; 
+  assign {mispredict_AGEX, pctarget_AGEX} = from_AGEX_to_FE; 
   
   wire [`FE_latch_WIDTH-1:0] FE_latch_contents; 
 
@@ -64,8 +64,8 @@ module FE_STAGE(
   assign FE_latch_contents = { 
                                 inst_FE, 
                                 PC_FE_latch, 
-                                pcplus_FE, // please feel free to add more signals such as valid bits etc. 
-                                // if you add more bits here, please increase the width of latch in VX_define.vh 
+                                pcplus_FE, 
+                                br_taken_BTB,
                                 `BUS_CANARY_VALUE // for an error checking of bus encoding/decoding  
                                 };
    
@@ -83,8 +83,16 @@ module FE_STAGE(
         PC_FE_latch <= PC_FE_latch; 
         FE_latch <= FE_latch;
       end
+      else if (mispredict_AGEX) begin
+        // the pipeline previously mispredicted the direction of a branch
+        // the direction and target was resolved in the AGEX stage
+        // need to update the PC with the computed target and insert a bubble into the pipeline so the
+        //   incorrect stream of instructions is not executed
+        PC_FE_latch <= pctarget_AGEX;
+        FE_latch <= {`FE_latch_WIDTH{1'b0}};
+      end
       else begin
-        // if no hazard, continue execution with the next PC
+        // if no hazard or misprediction, continue execution with the next PC
         PC_FE_latch <= nextpc_FE;
         FE_latch <= FE_latch_contents;
       end

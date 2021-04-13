@@ -27,6 +27,8 @@ module AGEX_STAGE(
   wire [`OP2BITS-1:0] op2_AGEX;
   wire [`IMMBITS-1:0] imm_AGEX;
 
+  // if this instruction is a branch, this bit indicates the direction of the branch predicted using BTB in FE stage
+  wire predicted_dir_AGEX;
   
   wire signed [`DBITS-1:0] regval1_AGEX;
   wire signed [`DBITS-1:0] regval2_AGEX;
@@ -43,6 +45,7 @@ module AGEX_STAGE(
   reg [`DBITS-1:0] aluout_AGEX; 
   
   wire br_taken_AGEX;
+  wire mispredict_AGEX;  // signal sent back to FE stage to indicate that there was a misprediction for the branch instruction in this stage
   wire[`DBITS-1:0] pctarget_AGEX; 
   
   wire[`BUS_CANARY_WIDTH-1:0] bus_canary_AGEX; 
@@ -97,8 +100,11 @@ module AGEX_STAGE(
   assign br_taken_AGEX = is_jmp_AGEX || (is_br_AGEX && br_cond_AGEX);
   assign pctarget_AGEX = (op1_AGEX == `OP1_JAL) ? (regval1_AGEX + 4 * sxt_imm_AGEX) : (pcplus_AGEX + 4 * sxt_imm_AGEX);
 
+  // check the known direction of the branch against the predicted direction determined in FE stage
+  assign mispredict_AGEX = br_taken_AGEX != predicted_dir_AGEX;
+
   assign from_AGEX_to_FE = {
-    br_taken_AGEX,
+    mispredict_AGEX,
     pctarget_AGEX
   };
 
@@ -120,7 +126,7 @@ module AGEX_STAGE(
                                   wr_mem_AGEX,
                                   wr_reg_AGEX,
                                   wregno_AGEX, 
-                                          // more signals might need
+                                  predicted_dir_AGEX,
                                   bus_canary_AGEX
                                   } = from_DE_latch; 
     
