@@ -25,6 +25,7 @@ module STALL_UNIT(
   wire [`DBITS-1:0] regfile2_DE;
 
   // AGEX signals
+  wire [`OP1BITS-1:0] op1_AGEX;
   wire [`REGNOBITS-1:0] wregno_AGEX;
   wire wr_reg_AGEX;
   wire [`DBITS-1:0] regval_AGEX;
@@ -55,7 +56,10 @@ module STALL_UNIT(
   assign RAW_from_MEM = wr_reg_MEM && (rs_DE == wregno_MEM || (rt_read_DE && rt_DE == wregno_MEM));
 
   /* set stall signals to send to other pipeline stages */
-  assign data_hazard = RAW_from_AGEX || RAW_from_MEM;
+
+  // the only data hazard that can cause a stall is when there is a memory operation currently in the AGEX stage
+  // would need to wait an extra cycle for the operation to reach the MEM stage 
+  assign data_hazard = RAW_from_AGEX && op1_AGEX == `OP1_LW;
   assign control_hazard = is_br_DE || is_jmp_DE; // branches/jumps aren't resolved until AGEX stage 
 
   always @ (RAW_from_AGEX or RAW_from_MEM) begin
