@@ -144,6 +144,7 @@ module AGEX_STAGE(
                                 wr_reg_AGEX,
                                 wregno_AGEX,
                                 is_br_AGEX,
+                                is_jmp_AGEX,
                                 br_taken_AGEX,
                                 pctarget_AGEX,
                                 bus_canary_AGEX     

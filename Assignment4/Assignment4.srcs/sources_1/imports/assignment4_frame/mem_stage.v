@@ -38,6 +38,7 @@ module MEM_STAGE(
   wire [`DBITS-1:0] regval2_MEM;
 
   wire is_br_MEM;
+  wire is_jmp_MEM;
   wire br_taken_MEM;
   wire [`DBITS-1:0] pctarget_MEM;
   
@@ -79,6 +80,7 @@ module MEM_STAGE(
                               wr_reg_MEM,
                               wregno_MEM,
                               is_br_MEM,
+                              is_jmp_MEM,
                               br_taken_MEM,
                               pctarget_MEM,
                               bus_canary_MEM
@@ -97,6 +99,7 @@ module MEM_STAGE(
                               wr_reg_MEM,
                               wregno_MEM,    
                               is_br_MEM,
+                              is_jmp_MEM,
                               br_taken_MEM,
                               pctarget_MEM,    
                             bus_canary_MEM                   

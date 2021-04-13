@@ -22,6 +22,7 @@ module BTB(
   // signals from WB stage - needed for updating the BTB
   wire [`INSTBITS-1:0] PC_WB;
   wire is_br_WB;
+  wire is_jmp_WB;
   wire br_taken_WB;
   wire [`INSTBITS-1:0] pctarget_WB;
 
@@ -42,7 +43,7 @@ module BTB(
 
   // pull out singals from inputs to module
   assign PC_FE = from_FE_to_BTB;
-  assign {PC_WB, is_br_WB, br_taken_WB, pctarget_WB} = from_WB_to_BTB;
+  assign {PC_WB, is_br_WB, is_jmp_WB, br_taken_WB, pctarget_WB} = from_WB_to_BTB;
 
   // determine indices for read and write to BTB
   assign btb_rd_index = PC_FE[`BTB_INDEX_BITS-1:0];  // BTB is read during FE stage
@@ -81,7 +82,7 @@ module BTB(
       btb[15] <= {`BTB_LINE_BITS{1'b0}};
     end 
     // update the BTB if a branch instruction is in the WB stage
-    else if (is_br_WB) begin
+    else if (is_br_WB || is_jmp_WB) begin
       if (btb_wr_entry_pc != PC_WB) begin
         // the instruction was not in the BTB - add the entry to the table
         btb[btb_wr_index] <= {PC_WB, pctarget_WB};

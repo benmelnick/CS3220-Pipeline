@@ -29,6 +29,7 @@ module WB_STAGE(
   wire [`BUS_CANARY_WIDTH-1:0] bus_canary_WB;
 
   wire is_br_WB;
+  wire is_jmp_WB;
   wire br_taken_WB;
   wire [`DBITS-1:0] pctarget_WB;
 
@@ -57,6 +58,7 @@ module WB_STAGE(
                                 wr_reg_WB,
                                 wregno_WB,    
                                 is_br_WB,
+                                is_jmp_WB,
                                 br_taken_WB,
                                 pctarget_WB,                        
                                  bus_canary_WB 
@@ -66,7 +68,7 @@ module WB_STAGE(
   assign from_WB_to_DE = {wregno_WB, regval_WB, wr_reg_WB}; 
 
   // Send PC, branch direction, and target to BTB to update the corresponding entry for the PC
-  assign from_WB_to_BTB = {PC_WB, is_br_WB, br_taken_WB, pctarget_WB};      
+  assign from_WB_to_BTB = {PC_WB, is_br_WB, is_jmp_WB, br_taken_WB, pctarget_WB};      
         
   // Writing to LEDR
   always @ (posedge clk or posedge reset) begin

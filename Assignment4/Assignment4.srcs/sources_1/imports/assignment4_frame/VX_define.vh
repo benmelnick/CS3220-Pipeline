@@ -78,8 +78,8 @@
   `define FE_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS+ 1 + `BUS_CANARY_WIDTH)
   `define DE_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS+`OP1BITS+`OP2BITS+`DBITS+`DBITS+`DBITS + 1 + 1 + 1 + 1 + 1+ `REGNOBITS + 1 + `BUS_CANARY_WIDTH)
 
-  `define AGEX_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS + `DBITS + 1 + 1 + 1 + `REGNOBITS + 1 + 1 + `DBITS + `BUS_CANARY_WIDTH)
-  `define MEM_latch_WIDTH   (`INSTBITS+`DBITS+`DBITS +`DBITS + `DBITS + 1 + 1 + `REGNOBITS + 1 + 1 + `DBITS + `BUS_CANARY_WIDTH)
+  `define AGEX_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS + `DBITS + 1 + 1 + 1 + `REGNOBITS + 1 + 1 + 1 + `DBITS + `BUS_CANARY_WIDTH)
+  `define MEM_latch_WIDTH   (`INSTBITS+`DBITS+`DBITS +`DBITS + `DBITS + 1 + 1 + `REGNOBITS + 1 + 1 + 1 + `DBITS + `BUS_CANARY_WIDTH)
 
   `define from_DE_to_FE_WIDTH  1 
   `define from_AGEX_to_FE_WIDTH (1 + `DBITS) // send a "branch mispredicted" signal and the target PC 
@@ -116,5 +116,5 @@
   `define from_FE_to_BTB_WIDTH (`INSTBITS)
   // WB stage sends PC, branch direction + PC target (computed in AGEX stage) to BTB
   // also need a bit to indicate if the instruction is actually a branch
-  `define from_WB_to_BTB_WIDTH (`INSTBITS + 1 + 1 + `INSTBITS)  
+  `define from_WB_to_BTB_WIDTH (`INSTBITS + 1 + 1 + 1 + `INSTBITS)  
 `endif 
