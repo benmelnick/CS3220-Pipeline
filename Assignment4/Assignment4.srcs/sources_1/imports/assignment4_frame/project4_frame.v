@@ -65,8 +65,8 @@ STALL_UNIT my_stall_unit(
   .from_MEM_to_stall(from_MEM_to_stall),
   .data_hazard(data_hazard),
   .control_hazard(control_hazard),
-  .regval1_DE(forwarded_regval1),
-  .regval2_DE(forwarded_regval2));
+  .regval1_DE_out(forwarded_regval1),
+  .regval2_DE_out(forwarded_regval2));
 
 
 FE_STAGE my_FE_stage(

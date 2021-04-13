@@ -8,8 +8,8 @@ module STALL_UNIT(
   input[`from_MEM_to_stall_WIDTH-1:0] from_MEM_to_stall,
   output data_hazard,
   output control_hazard,
-  output[`DBITS-1:0] regval1_DE,
-  output[`DBITS-1:0] regval2_DE,
+  output[`DBITS-1:0] regval1_DE_out,
+  output[`DBITS-1:0] regval2_DE_out
 );
 
   /* intermediate signals for stall condition logic */
@@ -37,6 +37,11 @@ module STALL_UNIT(
   wire RAW_from_MEM;
   wire RAW_from_AGEX;
 
+  // registers to hold the register values sent back to the DE stage
+  // needed to be declared as registers so they can be updated in an always block
+  reg [`DBITS-1:0] regval1_DE;
+  reg [`DBITS-1:0] regval2_DE;
+
   /* determine if RAW hazard exists */
 
   // pull out signals from inputs to module
@@ -59,6 +64,9 @@ module STALL_UNIT(
   // would need to wait an extra cycle for the operation to reach the MEM stage 
   assign data_hazard = RAW_from_AGEX && op1_AGEX == `OP1_LW;
   assign control_hazard = is_br_DE || is_jmp_DE; // branches/jumps aren't resolved until AGEX stage 
+
+  assign regval1_DE_out = regval1_DE;
+  assign regval2_DE_out = regval2_DE; 
 
   always @ (RAW_from_AGEX or RAW_from_MEM) begin
     if (RAW_from_AGEX && RAW_from_MEM) begin
@@ -99,7 +107,8 @@ module STALL_UNIT(
       // only a hazard with the AGEX stage - check which register(s) can receive the forwarded value
       regval1_DE = (rs_DE == wregno_MEM) ? regval_MEM : regfile1_DE;
       regval2_DE = (rt_read_DE && rt_DE == wregno_MEM) ? regval_MEM : regfile2_DE;
-    else
+    end
+    else begin
       // no hazards, so forwarding not needed, can just use the value taken from the register file 
       regval1_DE = regfile1_DE;
       regval2_DE = regfile2_DE;
