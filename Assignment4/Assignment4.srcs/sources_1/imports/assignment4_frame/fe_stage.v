@@ -11,7 +11,7 @@ module FE_STAGE(
   // inputs from the stall_unit module
   input data_hazard,
   input br_taken_BTB,
-  input [`INSTBITS-1:0] pctarget_BTB
+  input [`INSTBITS-1:0] pctarget_BTB,
   output[`FE_latch_WIDTH-1:0] FE_latch_out,
   output[`from_FE_to_BTB_WIDTH-1:0] from_FE_to_BTB
 );
