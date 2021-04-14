@@ -84,16 +84,17 @@ module BTB(
     end 
     // update the BTB if a branch instruction is in the WB stage
     else if (is_br_WB || is_jmp_WB) begin
-      if (btb_wr_entry_pc != PC_WB) begin
-        // the instruction was not in the BTB - add the entry to the table
-        btb[btb_wr_index] <= {PC_WB, pctarget_WB};
+      if (br_taken_WB) begin
+        // branch was taken - add this entry to the BTB if it did not already exist in the table
+        if (btb_wr_entry_pc != PC_WB) 
+          btb[btb_wr_index] <= {PC_WB, pctarget_WB};
+        // else: this branch was already in the BTB - since it was taken, it remains there
       end
       else begin
-        // instruction was already in the BTB
-        // clear the entry if the branch was not taken
-        if (!br_taken_WB)
+        // branch was not taken - clear the entry from the BTB if it was in the table previously
+        if (btb_wr_entry_pc == PC_WB)
           btb[btb_wr_index] <= {`BTB_LINE_BITS{1'b0}};
-        // else: the branch was taken, so the entry can remain in the BTB for future lookups
+        // else: this branch was not in the BTB - since it was not taken, don't do anything to the table
       end
     end
 

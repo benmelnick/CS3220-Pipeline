@@ -79,7 +79,7 @@ module DE_STAGE(
   assign {forward_reg1, forward_reg2, regval1_forwarded, regval2_forwarded} = from_stall_to_DE;
 
   // Read register values
-  // Regval1 is always Rs and Regval2 is always Rt (even though Rt is sometimes a destination reg)
+  // Either the actual register file values or some value forwarded from one of AGEX and MEM stages
   assign regval1_DE = forward_reg1 ? regval1_forwarded : regs[rs_DE];
   assign regval2_DE = forward_reg2 ? regval2_forwarded : regs[rt_DE];
 
@@ -111,7 +111,7 @@ module DE_STAGE(
             }  = from_FE_latch;  // based on the contents of the latch, you can decode the content 
 
 // assemble signals to send to stall unit
-assign from_DE_to_stall = {rs_DE, rt_DE, op1_DE, is_br_DE, is_jmp_DE};
+assign from_DE_to_stall = {rs_DE, rt_DE, op1_DE};
 
 assign DE_latch_contents = {
                               inst_DE,

@@ -7,7 +7,6 @@ module STALL_UNIT(
   input[`from_AGEX_to_stall_WIDTH-1:0] from_AGEX_to_stall,
   input[`from_MEM_to_stall_WIDTH-1:0] from_MEM_to_stall,
   output data_hazard,
-  output control_hazard,
   output[`from_stall_to_DE_WIDTH-1:0] from_stall_to_DE 
 );
 
@@ -16,8 +15,6 @@ module STALL_UNIT(
   wire [`REGNOBITS-1:0] rs_DE;
   wire [`REGNOBITS-1:0] rt_DE;
   wire [`OP1BITS-1:0] op1_DE;
-  wire is_br_DE;
-  wire is_jmp_DE;
 
   // AGEX signals
   wire [`OP1BITS-1:0] op1_AGEX;
@@ -46,7 +43,7 @@ module STALL_UNIT(
   /* determine if RAW hazard exists */
 
   // pull out signals from inputs to module
-  assign {rs_DE, rt_DE, op1_DE, is_br_DE, is_jmp_DE} = from_DE_to_stall;
+  assign {rs_DE, rt_DE, op1_DE} = from_DE_to_stall;
   assign {op1_AGEX, wregno_AGEX, wr_reg_AGEX, regval_AGEX} = from_AGEX_to_stall;
   assign {wregno_MEM, wr_reg_MEM, regval_MEM} = from_MEM_to_stall;
 
@@ -64,7 +61,6 @@ module STALL_UNIT(
   // the only data hazard that can cause a stall is when there is a memory operation currently in the AGEX stage
   // would need to wait an extra cycle for the operation to reach the MEM stage 
   assign data_hazard = RAW_from_AGEX && op1_AGEX == `OP1_LW;
-  assign control_hazard = is_br_DE || is_jmp_DE; // branches/jumps aren't resolved until AGEX stage 
 
   // Send result of forwarding back to DE stage
   assign from_stall_to_DE = {forward_reg1, forward_reg2, regval1_forwarded, regval2_forwarded};
