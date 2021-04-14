@@ -46,9 +46,12 @@ module AGEX_STAGE(
   reg [`DBITS-1:0] aluout_AGEX; 
   
   wire br_taken_AGEX;
-  wire mispredict_AGEX;  // signal sent back to FE stage to indicate that there was a misprediction for the branch instruction in this stage
   wire[`DBITS-1:0] pctarget_AGEX; 
-  
+
+  // Signals sent back to FE signal in the event of a misprediction
+  wire mispredict_AGEX;  // signal sent back to FE stage to indicate that there was a misprediction for the branch instruction in this stage
+  wire [`DBITS-1:0] redirectedpc_AGEX;  // the new PC to start fetching from after detecting a misprediction
+
   wire[`BUS_CANARY_WIDTH-1:0] bus_canary_AGEX; 
  
   
@@ -104,9 +107,13 @@ module AGEX_STAGE(
   // check the known direction of the branch against the predicted direction determined in FE stage
   assign mispredict_AGEX = br_taken_AGEX != predicted_dir_AGEX;
 
+  // If there is a misprediction, the new PC to fetch from will be the PC of the opposite prediction direction
+  // i.e. if the branch was predicted taken and actually not taken, send back PC + 4
+  assign redirectedpc_AGEX = predicted_dir_AGEX ? pcplus_AGEX : pctarget_AGEX;
+
   assign from_AGEX_to_FE = {
     mispredict_AGEX,
-    pctarget_AGEX
+    redirectedpc_AGEX
   };
 
   assign flush = mispredict_AGEX;

@@ -37,8 +37,8 @@ module FE_STAGE(
   
   // branching info passed from AGEX stage
   wire mispredict_AGEX;
-  wire[`DBITS-1:0] pctarget_AGEX; 
-  assign {mispredict_AGEX, pctarget_AGEX} = from_AGEX_to_FE; 
+  wire[`DBITS-1:0] redirectedpc_AGEX; 
+  assign {mispredict_AGEX, redirectedpc_AGEX} = from_AGEX_to_FE; 
   
   wire [`FE_latch_WIDTH-1:0] FE_latch_contents; 
 
@@ -88,7 +88,7 @@ module FE_STAGE(
         // the direction and target was resolved in the AGEX stage
         // need to update the PC with the computed target and insert a bubble into the pipeline so the
         //   incorrect stream of instructions is not executed
-        PC_FE_latch <= pctarget_AGEX;
+        PC_FE_latch <= redirectedpc_AGEX;
         FE_latch <= {`FE_latch_WIDTH{1'b0}};
       end
       else begin

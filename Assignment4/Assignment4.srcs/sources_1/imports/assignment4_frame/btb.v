@@ -39,15 +39,16 @@ module BTB(
   // set up the BTB as an array of registers 
   // array with BTB_SIZE elements, where each element corresponds to a line in the BTB
   // each line in the BTB has BTB_LINE_BITS
-  reg[`BTB_LINE_BITS-1:0] btb[`BTB_SIZE-1:0]; // todo: choose a better subset of bits?
+  reg[`BTB_LINE_BITS-1:0] btb[`BTB_SIZE-1:0]; 
 
   // pull out singals from inputs to module
   assign PC_FE = from_FE_to_BTB;
   assign {PC_WB, is_br_WB, is_jmp_WB, br_taken_WB, pctarget_WB} = from_WB_to_BTB;
 
   // determine indices for read and write to BTB
-  assign btb_rd_index = PC_FE[`BTB_INDEX_BITS-1:0];  // BTB is read during FE stage
-  assign btb_wr_index = PC_WB[`BTB_INDEX_BITS-1:0];  // BTB is written during WB stage
+  // to access a wider range of possible indices, start at bit 2
+  assign btb_rd_index = PC_FE[`BTB_INDEX_BITS+1:2];  // BTB is read during FE stage
+  assign btb_wr_index = PC_WB[`BTB_INDEX_BITS+1:2];  // BTB is written during WB stage
 
   // get the current lines in each index
   assign {btb_rd_entry_pc, btb_rd_target_pc} = btb[btb_rd_index];
