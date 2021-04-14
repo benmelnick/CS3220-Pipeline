@@ -19,7 +19,7 @@
 
   // [NOTICE] please note that both imem and dmem use the SAME "IDMEMINITFILE".
   // you need to change this line to change which test file to read 
-  `define IDMEMINITFILE  "bubblesort.mem"
+  `define IDMEMINITFILE  "testall.mem"
  
 
  
@@ -75,14 +75,14 @@
 /** please update the following define with your own values */ 
 
   
-  `define FE_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS+`BUS_CANARY_WIDTH)
-  `define DE_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS+`OP1BITS+`OP2BITS+`DBITS+`DBITS+`DBITS + 1 + 1 + 1 + 1 + 1+ `REGNOBITS + `BUS_CANARY_WIDTH)
+  `define FE_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS+ 1 + `BUS_CANARY_WIDTH)
+  `define DE_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS+`OP1BITS+`OP2BITS+`DBITS+`DBITS+`DBITS + 1 + 1 + 1 + 1 + 1+ `REGNOBITS + 1 + `BUS_CANARY_WIDTH)
 
-  `define AGEX_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS + `DBITS + 1 + 1 + 1 + `REGNOBITS + `BUS_CANARY_WIDTH)
-  `define MEM_latch_WIDTH   (`INSTBITS+`DBITS+`DBITS +`DBITS + `DBITS + 1 + 1 + `REGNOBITS + `BUS_CANARY_WIDTH)
+  `define AGEX_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS + `DBITS + 1 + 1 + 1 + `REGNOBITS + 1 + 1 + 1 + `DBITS + `BUS_CANARY_WIDTH)
+  `define MEM_latch_WIDTH   (`INSTBITS+`DBITS+`DBITS +`DBITS + `DBITS + 1 + 1 + `REGNOBITS + 1 + 1 + 1 + `DBITS + `BUS_CANARY_WIDTH)
 
   `define from_DE_to_FE_WIDTH  1 
-  `define from_AGEX_to_FE_WIDTH (1 + `DBITS) // send a "branch taken" signal and the target PC 
+  `define from_AGEX_to_FE_WIDTH (1 + `DBITS) // send a "branch mispredicted" signal and the target PC 
   `define from_MEM_to_FE_WIDTH 4
   `define from_WB_to_FE_WIDTH 4
 
@@ -107,4 +107,17 @@
 
   `define BUS_CANARY_WIDTH 4 
   `define BUS_CANARY_VALUE 4'b1111 
+
+   // TODO: determine sizes
+  `define BTB_ENTRY_BITS (`INSTBITS + `INSTBITS)  // each BTB entry stores the PC of the entry and the target PC
+  `define BTB_INDEX_BITS 4  // number of bits in PC used to index BTB
+  `define BTB_SIZE (1 << `BTB_INDEX_BITS) // number of rows in the BTB
+  `define BTB_ASSOCIATIVITY 1 // 1 entry/row --> direct mapped cache
+  `define BTB_LINE_BITS (`BTB_ASSOCIATIVITY * `BTB_ENTRY_BITS)  // number of bits in each row
+
+  // FE stage sends current PC to BTB
+  `define from_FE_to_BTB_WIDTH (`INSTBITS)
+  // WB stage sends PC, branch direction + PC target (computed in AGEX stage) to BTB
+  // also need a bit to indicate if the instruction is actually a branch
+  `define from_WB_to_BTB_WIDTH (`INSTBITS + 1 + 1 + 1 + `INSTBITS)  
 `endif 

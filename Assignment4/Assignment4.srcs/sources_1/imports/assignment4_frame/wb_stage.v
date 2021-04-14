@@ -9,6 +9,7 @@ module WB_STAGE(
   output[`from_WB_to_DE_WIDTH-1:0] from_WB_to_DE,  
   //output[`from_WB_to_AGEX_WIDTH-1:0] from_WB_to_AGEX,
   //output[`from_WB_to_MEM_WIDTH-1:0] from_WB_to_MEM,
+  output[`from_WB_to_BTB_WIDTH-1:0] from_WB_to_BTB,
   output [6:0] HEX0,
   output [6:0] HEX1, 
   output [9:0] LEDR 
@@ -26,6 +27,11 @@ module WB_STAGE(
   wire wr_reg_WB;
   wire [`REGNOBITS-1:0] wregno_WB;
   wire [`BUS_CANARY_WIDTH-1:0] bus_canary_WB;
+
+  wire is_br_WB;
+  wire is_jmp_WB;
+  wire br_taken_WB;
+  wire [`DBITS-1:0] pctarget_WB;
 
   reg [23:0] HEX_out; 
   reg [9:0] LEDR_out; 
@@ -51,12 +57,18 @@ module WB_STAGE(
                                 wr_mem_WB,
                                 wr_reg_WB,
                                 wregno_WB,    
-                                // more signals might need                        
+                                is_br_WB,
+                                is_jmp_WB,
+                                br_taken_WB,
+                                pctarget_WB,                        
                                  bus_canary_WB 
                                  } = from_MEM_latch; 
         
   // write register by sending data to the DE stage 
-  assign from_WB_to_DE = {wregno_WB, regval_WB, wr_reg_WB};       
+  assign from_WB_to_DE = {wregno_WB, regval_WB, wr_reg_WB}; 
+
+  // Send PC, branch direction, and target to BTB to update the corresponding entry for the PC
+  assign from_WB_to_BTB = {PC_WB, is_br_WB, is_jmp_WB, br_taken_WB, pctarget_WB};      
         
   // Writing to LEDR
   always @ (posedge clk or posedge reset) begin

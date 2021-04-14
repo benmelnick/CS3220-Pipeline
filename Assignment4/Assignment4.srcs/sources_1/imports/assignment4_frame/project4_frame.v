@@ -40,6 +40,8 @@ clk_wiz_0 my_clock
   //wire [`from_MEM_to_FE_WIDTH-1:0] from_MEM_to_FE;
   //wire [`from_WB_to_FE_WIDTH-1:0] from_WB_to_FE;
 
+  wire flush;
+
   //wire [`from_AGEX_to_DE_WIDTH-1:0] from_AGEX_to_DE;
   //wire [`from_MEM_to_DE_WIDTH-1:0] from_MEM_to_DE;
   wire [`from_WB_to_DE_WIDTH-1:0] from_WB_to_DE;
@@ -57,6 +59,11 @@ clk_wiz_0 my_clock
   wire control_hazard;
   wire [`from_stall_to_DE_WIDTH-1:0] from_stall_to_DE;
 
+  /* Wires for BTB */
+  wire [`from_FE_to_BTB_WIDTH-1:0] from_FE_to_BTB;
+  wire [`from_WB_to_BTB_WIDTH-1:0] from_WB_to_BTB;
+  wire br_taken_BTB;
+  wire [`INSTBITS-1:0] pctarget_BTB; 
 
 STALL_UNIT my_stall_unit(
   .from_DE_to_stall(from_DE_to_stall),
@@ -66,14 +73,24 @@ STALL_UNIT my_stall_unit(
   .control_hazard(control_hazard),
   .from_stall_to_DE(from_stall_to_DE));
 
+BTB my_btb(
+  .clk(clk),
+  .reset(reset),
+  .from_FE_to_BTB(from_FE_to_BTB),
+  .from_WB_to_BTB(from_WB_to_BTB),
+  .br_taken_BTB(br_taken_BTB),
+  .pctarget_BTB(pctarget_BTB)
+);
 
 FE_STAGE my_FE_stage(
     .clk(clk), 
     .reset(reset), 
     .from_AGEX_to_FE(from_AGEX_to_FE),
     .data_hazard(data_hazard),
-    .control_hazard(control_hazard),
-    .FE_latch_out(FE_latch_out)); 
+    .br_taken_BTB(br_taken_BTB),
+    .pctarget_BTB(pctarget_BTB),
+    .FE_latch_out(FE_latch_out),
+    .from_FE_to_BTB(from_FE_to_BTB)); 
                      
 DE_STAGE my_DE_stage(
   .clk(clk),
@@ -81,6 +98,7 @@ DE_STAGE my_DE_stage(
   .from_FE_latch(FE_latch_out),
   .from_WB_to_DE(from_WB_to_DE), 
   .data_hazard(data_hazard),
+  .flush(flush),
   .from_stall_to_DE(from_stall_to_DE),
   .from_DE_to_stall(from_DE_to_stall),
   .DE_latch_out(DE_latch_out)
@@ -92,7 +110,8 @@ AGEX_STAGE my_AGEX_stage(
   .from_DE_latch(DE_latch_out),
   .AGEX_latch_out(AGEX_latch_out),
   .from_AGEX_to_FE(from_AGEX_to_FE),
-  .from_AGEX_to_stall(from_AGEX_to_stall)
+  .from_AGEX_to_stall(from_AGEX_to_stall),
+  .flush(flush)
 );
 
 MEM_STAGE my_MEM_stage(
@@ -111,6 +130,7 @@ WB_STAGE my_WB_stage(
   .reset(reset),  
   .from_MEM_latch(MEM_latch_out),
   .from_WB_to_DE(from_WB_to_DE),  
+  .from_WB_to_BTB(from_WB_to_BTB),
   .HEX0(HEX0),
   .HEX1(HEX1), 
   .LEDR(LEDR) 

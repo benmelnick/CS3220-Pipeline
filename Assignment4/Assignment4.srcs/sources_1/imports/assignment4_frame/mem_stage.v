@@ -36,6 +36,11 @@ module MEM_STAGE(
   wire [`DBITS-1:0] PC_MEM;
   wire [`DBITS-1:0] aluout_MEM; 
   wire [`DBITS-1:0] regval2_MEM;
+
+  wire is_br_MEM;
+  wire is_jmp_MEM;
+  wire br_taken_MEM;
+  wire [`DBITS-1:0] pctarget_MEM;
   
   wire rd_mem_MEM;
   wire wr_mem_MEM;
@@ -74,8 +79,11 @@ module MEM_STAGE(
                               wr_mem_MEM,
                               wr_reg_MEM,
                               wregno_MEM,
-                                  // more signals might need
-                                bus_canary_MEM
+                              is_br_MEM,
+                              is_jmp_MEM,
+                              br_taken_MEM,
+                              pctarget_MEM,
+                              bus_canary_MEM
                                 } = from_AGEX_latch;  
 
   // send register info to stall unit
@@ -90,7 +98,10 @@ module MEM_STAGE(
                               wr_mem_MEM,
                               wr_reg_MEM,
                               wregno_MEM,    
-                                      // more signals might need    
+                              is_br_MEM,
+                              is_jmp_MEM,
+                              br_taken_MEM,
+                              pctarget_MEM,    
                             bus_canary_MEM                   
   };
  

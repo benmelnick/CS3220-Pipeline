@@ -8,6 +8,7 @@ module DE_STAGE(
   //input [`from_AGEX_to_DE_WIDTH-1:0] from_AGEX_to_DE,  
   //input [`from_MEM_to_DE_WIDTH-1:0] from_MEM_to_DE,     
   input [`from_WB_to_DE_WIDTH-1:0] from_WB_to_DE,  
+  input flush,
    // input from stall_unit
   input data_hazard,
   input [`from_stall_to_DE_WIDTH-1:0] from_stall_to_DE,
@@ -48,6 +49,9 @@ module DE_STAGE(
   
   wire[`DE_latch_WIDTH-1:0] DE_latch_contents; 
   wire[`BUS_CANARY_WIDTH-1:0] bus_canary_DE; 
+
+  // if this instruction is a branch, this bit indicates the direction of the branch predicted using BTB in FE stage
+  wire predicted_dir_DE;
 
  // signals sent from the WB stage
  wire[`REGNOBITS-1:0] wrregno_WB;
@@ -102,6 +106,7 @@ module DE_STAGE(
             inst_DE,
             PC_DE, 
             pcplus_DE,
+            predicted_dir_DE,
             bus_canary_DE 
             }  = from_FE_latch;  // based on the contents of the latch, you can decode the content 
 
@@ -123,8 +128,7 @@ assign DE_latch_contents = {
                               wr_mem_DE,
                               wr_reg_DE,
                               wregno_DE,
-
-                              // more signals might need
+                              predicted_dir_DE,
                                 bus_canary_DE 
                               }; 
 
@@ -164,8 +168,11 @@ assign DE_latch_contents = {
       DE_latch <= {`DE_latch_WIDTH{1'b0}};
       // might need more code 
       end
-     else if (data_hazard)
-      DE_latch <= {`DE_latch_WIDTH{1'b0}}; // stall - insert bubble to next stage
+     else if (data_hazard || flush) begin
+       // if a data hazard, stall the pipeline by inserting a bubble into output latch to send to the next stage
+       // if a flush (from misprediction), flush the DE stage by inserting a bubble into output latch
+      DE_latch <= {`DE_latch_WIDTH{1'b0}};
+     end
      else
       DE_latch <= DE_latch_contents;
   end
