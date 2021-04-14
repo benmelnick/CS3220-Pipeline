@@ -111,7 +111,7 @@ module AGEX_STAGE(
 
   assign flush = mispredict_AGEX;
 
-  assign from_AGEX_to_stall = {wregno_AGEX, wr_reg_AGEX};
+  assign from_AGEX_to_stall = {op1_AGEX, wregno_AGEX, wr_reg_AGEX, aluout_AGEX};
 
     assign  {
                                   inst_AGEX,

@@ -87,7 +87,7 @@ module MEM_STAGE(
                                 } = from_AGEX_latch;  
 
   // send register info to stall unit
-  assign from_MEM_to_stall = {wregno_MEM, wr_reg_MEM};
+  assign from_MEM_to_stall = {wregno_MEM, wr_reg_MEM, regval_MEM};
  
   assign MEM_latch_contents = {
                               inst_MEM,

@@ -57,6 +57,7 @@ clk_wiz_0 my_clock
   wire [`from_MEM_to_stall_WIDTH-1:0] from_MEM_to_stall;
   wire data_hazard;
   wire control_hazard;
+  wire [`from_stall_to_DE_WIDTH-1:0] from_stall_to_DE;
 
   /* Wires for BTB */
   wire [`from_FE_to_BTB_WIDTH-1:0] from_FE_to_BTB;
@@ -69,7 +70,8 @@ STALL_UNIT my_stall_unit(
   .from_AGEX_to_stall(from_AGEX_to_stall),
   .from_MEM_to_stall(from_MEM_to_stall),
   .data_hazard(data_hazard),
-  .control_hazard(control_hazard));
+  .control_hazard(control_hazard),
+  .from_stall_to_DE(from_stall_to_DE));
 
 BTB my_btb(
   .clk(clk),
@@ -97,6 +99,7 @@ DE_STAGE my_DE_stage(
   .from_WB_to_DE(from_WB_to_DE), 
   .data_hazard(data_hazard),
   .flush(flush),
+  .from_stall_to_DE(from_stall_to_DE),
   .from_DE_to_stall(from_DE_to_stall),
   .DE_latch_out(DE_latch_out)
 );
