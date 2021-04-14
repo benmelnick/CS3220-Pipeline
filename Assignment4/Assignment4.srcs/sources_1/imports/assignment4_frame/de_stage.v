@@ -10,8 +10,7 @@ module DE_STAGE(
   input [`from_WB_to_DE_WIDTH-1:0] from_WB_to_DE,  
    // input from stall_unit
   input data_hazard,
-  input regval1_from_stall,
-  input regval2_from_stall,
+  input [`from_stall_to_DE_WIDTH-1:0] from_stall_to_DE,
   //output [`from_DE_to_FE_WIDTH-1:0] from_DE_to_FE,   
   output [`from_DE_to_stall_WIDTH-1:0] from_DE_to_stall,
   output[`DE_latch_WIDTH-1:0] DE_latch_out
@@ -55,6 +54,12 @@ module DE_STAGE(
  wire[`DBITS-1:0] regval_WB;
  wire wr_reg_WB;
 
+  // Register forwarding signals sent from stall unit
+  wire[`DBITS-1:0] regval1_forwarded;
+  wire[`DBITS-1:0] regval2_forwarded;
+  wire forward_reg1;
+  wire forward_reg2; 
+
   // instruction decoding - pull signals out of the instruction
   assign op1_DE = inst_DE[31:26]; 
   assign op2_DE = inst_DE[25:18];
@@ -66,10 +71,13 @@ module DE_STAGE(
   // Sign extension  
   SXT mysxt (.IN(imm_DE), .OUT(sxt_imm_DE));
 
+  // Read values from stall unit
+  assign {forward_reg1, forward_reg2, regval1_forwarded, regval2_forwarded} = from_stall_to_DE;
+
   // Read register values
   // Regval1 is always Rs and Regval2 is always Rt (even though Rt is sometimes a destination reg)
-  assign regval1_DE = regval1_from_stall;
-  assign regval2_DE = regval2_from_stall;
+  assign regval1_DE = forward_reg1 ? regval1_forwarded : regs[rs_DE];
+  assign regval2_DE = forward_reg2 ? regval2_forwarded : regs[rt_DE];
 
   // Determine destination register
   // Rd for ALUR ops, Rt otherwise
@@ -98,7 +106,7 @@ module DE_STAGE(
             }  = from_FE_latch;  // based on the contents of the latch, you can decode the content 
 
 // assemble signals to send to stall unit
-assign from_DE_to_stall = {rs_DE, rt_DE, op1_DE, is_br_DE, is_jmp_DE, regs[rs_DE], regs[rt_DE]};
+assign from_DE_to_stall = {rs_DE, rt_DE, op1_DE, is_br_DE, is_jmp_DE};
 
 assign DE_latch_contents = {
                               inst_DE,

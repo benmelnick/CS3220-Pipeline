@@ -102,6 +102,9 @@
   `define from_AGEX_to_stall_WIDTH (`OP1BITS + `REGNOBITS + 1 + `DBITS)
   `define from_MEM_to_stall_WIDTH (`REGNOBITS + 1 + `DBITS)
 
+  // stall unit sends two 1-bit signals indicating if the corresponding forwarded value should be used
+  `define from_stall_to_DE_WIDTH (1 + 1 + `DBITS + `DBITS)
+
   `define BUS_CANARY_WIDTH 4 
   `define BUS_CANARY_VALUE 4'b1111 
 `endif 
