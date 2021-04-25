@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:47 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Sun Apr 25 11:41:22 2021
+# Process ID: 29478
+# Current directory: /home/bmelnick3/cs3220/CS3220-Pipeline/Assignment5/MultHLS/solution1/impl/ip
+# Command line: vivado -notrace -mode batch -source run_ippack.tcl
+# Log file: /home/bmelnick3/cs3220/CS3220-Pipeline/Assignment5/MultHLS/solution1/impl/ip/vivado.log
+# Journal file: /home/bmelnick3/cs3220/CS3220-Pipeline/Assignment5/MultHLS/solution1/impl/ip/vivado.jou
+#-----------------------------------------------------------
+source run_ippack.tcl -notrace
+ipx::create_core: Time (s): cpu = 00:00:04 ; elapsed = 00:00:06 . Memory (MB): peak = 2440.785 ; gain = 2.016 ; free physical = 4811 ; free virtual = 9087
+INFO: [Common 17-206] Exiting Vivado at Sun Apr 25 11:41:49 2021...

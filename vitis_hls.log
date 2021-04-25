@@ -1,0 +1,46 @@
+INFO: [HLS 200-10] Running '/tools/reconfig/xilinx/Vitis_HLS/2020.2/bin/unwrapped/lnx64.o/vitis_hls'
+INFO: [HLS 200-10] For user 'bmelnick3' on host 'synestia9.cc.gatech.edu' (Linux_x86_64 version 4.15.0-132-generic) on Sat Apr 24 20:50:13 EDT 2021
+INFO: [HLS 200-10] On os Ubuntu 18.04.5 LTS
+INFO: [HLS 200-10] In directory '/home/bmelnick3/cs3220/CS3220-Pipeline'
+Sourcing Tcl script '/home/bmelnick3/cs3220/CS3220-Pipeline/Assignment5/solution1/export.tcl'
+INFO: [HLS 200-1510] Running: open_project Assignment5 
+INFO: [HLS 200-10] Opening project '/home/bmelnick3/cs3220/CS3220-Pipeline/Assignment5'.
+INFO: [HLS 200-1510] Running: set_top mulBF16 
+INFO: [HLS 200-1510] Running: add_files assignment5_files/mul.h 
+INFO: [HLS 200-10] Adding design file 'assignment5_files/mul.h' to the project
+INFO: [HLS 200-1510] Running: add_files assignment5_files/mulBF16.cpp 
+INFO: [HLS 200-10] Adding design file 'assignment5_files/mulBF16.cpp' to the project
+INFO: [HLS 200-1510] Running: add_files -tb assignment5_files/mul_test.cpp 
+INFO: [HLS 200-10] Adding test bench file 'assignment5_files/mul_test.cpp' to the project
+INFO: [HLS 200-1510] Running: open_solution solution1 -flow_target vivado 
+INFO: [HLS 200-10] Opening solution '/home/bmelnick3/cs3220/CS3220-Pipeline/Assignment5/solution1'.
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
+INFO: [HLS 200-10] Setting target device to 'xc7z020-clg400-1'
+INFO: [HLS 200-1505] Using flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see www.xilinx.com/cgi-bin/docs/rdoc?v=2020.2;t=hls+guidance;d=200-1505.html
+INFO: [HLS 200-1510] Running: set_part xc7z020clg400-1 
+INFO: [HLS 200-1510] Running: create_clock -period 10 -name default 
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
+INFO: [HLS 200-1510] Running: export_design -rtl verilog -format ip_catalog 
+INFO: [IMPL 213-8] Exporting RTL as a Vivado IP.
+
+****** Vivado v2020.2 (64-bit)
+  **** SW Build 3064766 on Wed Nov 18 09:12:47 MST 2020
+  **** IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+    ** Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+
+source run_ippack.tcl -notrace
+create_project: Time (s): cpu = 00:00:05 ; elapsed = 00:00:09 . Memory (MB): peak = 2403.832 ; gain = 2.016 ; free physical = 2587 ; free virtual = 7646
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/reconfig/xilinx/Vivado/2020.2/data/ip'.
+WARNING: [IP_Flow 19-4832] The IP name 'mulBF16_ap_dmul_5_max_dsp_64' you have specified is long. The Windows operating system has path length limitations. It is recommended you use shorter names to reduce the likelihood of issues.
+create_ip: Time (s): cpu = 00:00:05 ; elapsed = 00:00:07 . Memory (MB): peak = 2446.848 ; gain = 43.016 ; free physical = 2560 ; free virtual = 7620
+INFO: [IP_Flow 19-1686] Generating 'Synthesis' target for IP 'mulBF16_ap_dmul_5_max_dsp_64'...
+INFO: [IP_Flow 19-1686] Generating 'Simulation' target for IP 'mulBF16_ap_dmul_5_max_dsp_64'...
+WARNING: [IP_Flow 19-4832] The IP name 'mulBF16_ap_sitodp_4_no_dsp_32' you have specified is long. The Windows operating system has path length limitations. It is recommended you use shorter names to reduce the likelihood of issues.
+INFO: [IP_Flow 19-1686] Generating 'Synthesis' target for IP 'mulBF16_ap_sitodp_4_no_dsp_32'...
+INFO: [IP_Flow 19-1686] Generating 'Simulation' target for IP 'mulBF16_ap_sitodp_4_no_dsp_32'...
+INFO: [Common 17-206] Exiting Vivado at Sat Apr 24 20:51:11 2021...
+INFO: [HLS 200-802] Generated output file Assignment5/solution1/impl/export.zip
+INFO: [HLS 200-111] Finished Command export_design CPU user time: 42.12 seconds. CPU system time: 5.69 seconds. Elapsed time: 61.51 seconds; current allocated memory: 215.973 MB.
