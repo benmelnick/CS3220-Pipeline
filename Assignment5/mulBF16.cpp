@@ -29,29 +29,28 @@ void mulBF16(int a, int b, int &c)
 #pragma HLS INTERFACE s_axilite port = b
 #pragma HLS INTERFACE s_axilite port = c
 
-	int a_t, b_t, c_t;
-	int exponent_a, exponent_b, exponent_c, exponent_c_raw;
-	int mantissa_a, mantissa_b, mantissa_c, raw_m_ab;
-	int sign_bit_a, sign_bit_b, sign_bit_c;
+  int a_t, b_t, c_t;
+  int exponent_a, exponent_b, exponent_c, exponent_c_raw;
+  int mantissa_a, mantissa_b, mantissa_c, raw_m_ab;
+  int sign_bit_a, sign_bit_b, sign_bit_c;
 
 	a_t = a;
 	b_t = b;
 
-	// Get values out of int a
+  // Get values out of int a
   sign_bit_a = sign_bit(a_t);
   exponent_a = exp_bits(a_t);
   mantissa_a = mantissa_bits(a_t) | MANT_HIDDEN_BIT; // add the hidden bit
 
-	// Get values out of int b
+  // Get values out of int b
   sign_bit_b = sign_bit(b_t);
   exponent_b = exp_bits(b_t);
   mantissa_b = mantissa_bits(b_t) | MANT_HIDDEN_BIT; // add the hidden bit
 
-	//Check for 0 case
-	if (exponent_a == 0 || exponent_b == 0)
-	{
-		return;
-	}
+  // Check for 0 case
+  if (exponent_a == 0 || exponent_b == 0) {
+    return;
+  }
 
   // Check for infinity/NaN
   if (exponent_a == 0xFF || exponent_b == 0xFF) {
