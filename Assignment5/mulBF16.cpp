@@ -37,20 +37,12 @@ void mulBF16(int a, int b, int &c)
 	a_t = a;
 	b_t = b;
 
-	/* you need to complete this code */
-
-	//Get values out of int a
-	// sign_bit_a = bitExtracted(a_t, 1, 15);
-	// exponent_a = bitExtracted(a_t, 8, 8);
-	// mantissa_a = bitExtracted(a_t, 7, 1);
+	// Get values out of int a
   sign_bit_a = sign_bit(a_t);
   exponent_a = exp_bits(a_t);
   mantissa_a = mantissa_bits(a_t) | MANT_HIDDEN_BIT; // add the hidden bit
 
-	// //Get values out of int b
-	// sign_bit_b = bitExtracted(b_t, 1, 15);
-	// exponent_b = bitExtracted(b_t, 8, 8);
-	// mantissa_b = bitExtracted(b_t, 7, 1);
+	// Get values out of int b
   sign_bit_b = sign_bit(b_t);
   exponent_b = exp_bits(b_t);
   mantissa_b = mantissa_bits(b_t) | MANT_HIDDEN_BIT; // add the hidden bit
