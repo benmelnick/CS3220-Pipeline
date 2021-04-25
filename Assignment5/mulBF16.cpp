@@ -57,8 +57,8 @@ void mulBF16(int a, int b, int &c)
     return;
   }
 
-	// 1: XOR signed bits to determine sign of c
-	sign_bit_c = sign_bit_a ^ sign_bit_b;
+  // 1: XOR signed bits to determine sign of c
+  sign_bit_c = sign_bit_a ^ sign_bit_b;
 
   // 2: exponent = e1 + e2 - bias
   // bias = 2^(e-1) - 1, where e is the number of exponent bits
