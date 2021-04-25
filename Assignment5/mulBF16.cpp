@@ -2,9 +2,23 @@
 #include <stdio.h>
 #include <math.h>
 
-int bitExtracted(int number, int k, int p)
-{
-	return (((1 << k) - 1) & (number >> (p - 1)));
+// 16 bit floating point multiplication
+// first 7 bits are mantissa
+// next 8 bits are exponent
+// MSB is sign bit
+
+// [S (1) |      Exp (8)     |    Mantissa (7)  ] //
+
+int sign_bit(int number) {
+  return number >> 15;
+}
+
+int exp_bits(int number) {
+  return (number & 0x7F80) >> (TOTAL_BITS - E_BITS - 1); 
+}
+
+int mantissa_bits(int number) {
+  return number & 0x7F;
 }
 
 void mulBF16(int a, int b, int &c)
@@ -26,14 +40,20 @@ void mulBF16(int a, int b, int &c)
 	/* you need to complete this code */
 
 	//Get values out of int a
-	sign_bit_a = bitExtracted(a_t, 1, 15);
-	exponent_a = bitExtracted(a_t, 8, 8);
-	mantissa_a = bitExtracted(a_t, 7, 1);
+	// sign_bit_a = bitExtracted(a_t, 1, 15);
+	// exponent_a = bitExtracted(a_t, 8, 8);
+	// mantissa_a = bitExtracted(a_t, 7, 1);
+  sign_bit_a = sign_bit(a_t);
+  exponent_a = exp_bits(a_t);
+  mantissa_a = mantissa_bits(a_t) | MANT_HIDDEN_BIT; // add the hidden bit
 
-	//Get values out of int b
-	sign_bit_b = bitExtracted(b_t, 1, 15);
-	exponent_b = bitExtracted(b_t, 8, 8);
-	mantissa_b = bitExtracted(b_t, 7, 1);
+	// //Get values out of int b
+	// sign_bit_b = bitExtracted(b_t, 1, 15);
+	// exponent_b = bitExtracted(b_t, 8, 8);
+	// mantissa_b = bitExtracted(b_t, 7, 1);
+  sign_bit_b = sign_bit(b_t);
+  exponent_b = exp_bits(b_t);
+  mantissa_b = mantissa_bits(b_t) | MANT_HIDDEN_BIT; // add the hidden bit
 
 	//Check for 0 case
 	if (exponent_a == 0 || exponent_b == 0)
@@ -41,42 +61,39 @@ void mulBF16(int a, int b, int &c)
 		return;
 	}
 
-	//XOR signed bits to determine sign of c
+  // Check for infinity/NaN
+  if (exponent_a == 0xFF || exponent_b == 0xFF) {
+    return;
+  }
+
+	// 1: XOR signed bits to determine sign of c
 	sign_bit_c = sign_bit_a ^ sign_bit_b;
 
-	//Append hidden 1. to mantissa values
-	int hidden_mantissa_a = 1 << 7 | mantissa_a;
-	int hidden_mantissa_b = 1 << 7 | mantissa_b;
+  // 2: exponent = e1 + e2 - bias
+  // bias = 2^(e-1) - 1, where e is the number of exponent bits
+  int bias = pow(2, E_BITS - 1) - 1; 
+  exponent_c_raw = exponent_a + exponent_b - bias;
 
-	//Mantissa multiplication - 1.0101010 == 10101010 * 2^-7
-	raw_m_ab = mantissa_a * mantissa_b * pow(2, -14);
+  // 3: multyply mantissa values, including the hidden "1." at the beginning of each
+  // multiplying two 8 bit numbers should create a 16 bit number
+  raw_m_ab = mantissa_a * mantissa_b;
+  // normalize the result - need to right shift 16 bit int to fit into a 7 bit int
+  // check if MSB (bit 15) is set to 1
+  if (raw_m_ab & 0x8000) {
+    mantissa_c = raw_m_ab >> 8;
+    exponent_c = exponent_c_raw + 1;
+  } else {
+    mantissa_c = raw_m_ab >> 7;
+    exponent_c = exponent_c_raw;
+  }
+  // remove the hidden bit
+  mantissa_c = mantissa_c & ~MANT_HIDDEN_BIT;
 
-	//Add exponents and subtract bias - bias = 2^(m-1) -1 where m is number of exponent bits (8)
-	exponent_c_raw = exponent_a + exponent_b - pow(2, 7) - 1;
-
-	//Check if raw mantissa is > 2 and if so increment exponent
-	bool less_than_2 = false;
-	int shifted_mantissa = (raw_m_ab >> (2 * 7));
-
-	while (less_than_2)
-	{
-		if (shifted_mantissa > 2)
-		{
-			exponent_c_raw = exponent_c_raw + 1;
-			shifted_mantissa = (shifted_mantissa >> 1);
-		}
-		else
-		{
-			exponent_c = exponent_c_raw;
-			mantissa_c = shifted_mantissa;
-			less_than_2 = true;
-		}
-	}
-	c = pow(-1, sign_bit_c) * mantissa_c * pow(2, exponent_c);
+  // construct the result
+  c = (sign_bit_c << 15) | (exponent_c << (TOTAL_BITS - E_BITS - 1)) | mantissa_c;
 }
 
 void mulFP(float a, float b, float &c)
 {
-
 	c = a * b;
 }

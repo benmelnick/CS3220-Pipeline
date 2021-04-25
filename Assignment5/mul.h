@@ -1,4 +1,7 @@
 #define DIM 1
+#define TOTAL_BITS 16
+#define E_BITS 8
+#define MANT_HIDDEN_BIT (1 << 7)
 
 #ifndef _MUL
 
